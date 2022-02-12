@@ -14,25 +14,46 @@ import javax.swing.JOptionPane;
  *
  * @author samuel
  */
-
 public class ConfigPedidos {
-    
-    public static void leitor(String path) throws IOException {
+
+    private ArrayList<Pedidos> listaPedidos;
+
+    public ConfigPedidos() {
+        this.listaPedidos = new ArrayList<Pedidos>();
+    }
+
+    public void getPedidos() {
+        System.out.println("--- INGREDIENTES NECESSÁRIOS ---");
+        for(int i = 0; i < this.listaPedidos.size(); i++){
+            System.out.println("Pedido "+(i+1)+" ---> "+this.listaPedidos.get(i).getTer());
+            
+        }
         
+        System.out.println("-- INGREDIENTES DESNECESSÁRIOS --");
+        for(int i = 0; i < this.listaPedidos.size(); i++){
+            System.out.println("Pedido "+(i+1)+" ---> "+this.listaPedidos.get(i).getNaoter());
+        }
+    }
+
+    public void leitor(String path) throws IOException {
+
         BufferedReader buffRead = new BufferedReader(new FileReader(path));
         String linha = "";
         int i = -1;
         String[] pedidos = new String[2];
         while (true) {
-            
+
             i++;
             if (linha != null) {
-                if(i%2 == 0){
+                if (i % 2 == 0) {
                     pedidos[0] = linha;
-                }
-                else if(i%2 != 0 && i != 1){
+                } else if (i % 2 != 0 && i != 1) {
                     pedidos[1] = linha;
-                    Pedidos.addPedidos(pedidos[0], pedidos[1]);
+
+                    if(this.listaPedidos.size() <= 100000)
+                        listaPedidos.add(new Pedidos(pedidos[0], pedidos[1]));
+                    else
+                        JOptionPane.showMessageDialog(null, "Muitos pedidos no momento, tente novamente mais tarde");
                 }
             } else {
                 break;

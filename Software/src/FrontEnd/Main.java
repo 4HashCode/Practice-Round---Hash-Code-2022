@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package FrontEnd;
+
 import BackEnd.ConfigPedidos;
 import BackEnd.Pedidos;
 import java.io.File;
@@ -11,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,11 +23,11 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    
+    private ConfigPedidos configPedidos;
 
     public Main() {
         initComponents();
-       
+        configPedidos = new ConfigPedidos();
     }
 
     /**
@@ -140,16 +140,20 @@ public class Main extends javax.swing.JFrame {
 
         // CASO O USUÁRIO ESCOLHA UM ARQUIVO
         if (arquivoEscolhido.showSaveDialog(null) == 0) {
+            // COLETA O ARQUIVO SELECIONADO
             File arquivo = arquivoEscolhido.getSelectedFile();
             txtEndereco.setText(arquivo.getPath());
-        }
 
-        try {
-            ConfigPedidos.leitor(txtEndereco.getText());
-            Pedidos.getPedidos();
-            JOptionPane.showMessageDialog(this, "Basicamente tá funcionando a parte de separar,\nOs ingredientes foram printados com System.out.print, então olhe no painel Output");
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                configPedidos.leitor(txtEndereco.getText());
+                configPedidos.getPedidos();
+                JOptionPane.showMessageDialog(this, "Pedidos efetuados com sucesso");
+            } catch (IOException ex) {
+                Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            // MUDA O NOME DO BOTÃO
+            this.btnEscolherArquivo.setText("Escolha outro arquivo");
         }
 
     }//GEN-LAST:event_btnEscolherArquivoMouseClicked
