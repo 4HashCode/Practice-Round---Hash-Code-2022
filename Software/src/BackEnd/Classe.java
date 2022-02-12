@@ -4,10 +4,30 @@
  */
 package BackEnd;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author samuel
  */
 public class Classe {
-    
+
+    public static void leitor(String path) throws IOException {
+        BufferedReader buffRead = new BufferedReader(new FileReader(path));
+        String linha = "";
+        while (true) {
+            if (linha != null) {
+        
+                JOptionPane.showMessageDialog(null, linha);
+            } else {
+                
+                break;
+            }
+            linha = buffRead.readLine();
+        }
+    }
+
 }
