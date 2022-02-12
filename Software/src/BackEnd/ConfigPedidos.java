@@ -16,16 +16,25 @@ import javax.swing.JOptionPane;
  */
 
 public class ConfigPedidos {
-
+    
     public static void leitor(String path) throws IOException {
+        
         BufferedReader buffRead = new BufferedReader(new FileReader(path));
         String linha = "";
+        int i = -1;
+        String[] pedidos = new String[2];
         while (true) {
+            
+            i++;
             if (linha != null) {
-
-                JOptionPane.showMessageDialog(null, linha);
+                if(i%2 == 0){
+                    pedidos[0] = linha;
+                }
+                else if(i%2 != 0 && i != 1){
+                    pedidos[1] = linha;
+                    Pedidos.addPedidos(pedidos[0], pedidos[1]);
+                }
             } else {
-
                 break;
             }
             linha = buffRead.readLine();

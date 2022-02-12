@@ -3,8 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package FrontEnd;
-
 import BackEnd.ConfigPedidos;
+import BackEnd.Pedidos;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,11 +23,11 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    private ArrayList<ConfigPedidos> pedidos;
+    
 
     public Main() {
         initComponents();
-        this.setLocationRelativeTo(null);
+       
     }
 
     /**
@@ -145,6 +146,8 @@ public class Main extends javax.swing.JFrame {
 
         try {
             ConfigPedidos.leitor(txtEndereco.getText());
+            Pedidos.getPedidos();
+            JOptionPane.showMessageDialog(this, "Basicamente tá funcionando a parte de separar,\nOs ingredientes foram printados com System.out.print, então olhe no painel Output");
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
