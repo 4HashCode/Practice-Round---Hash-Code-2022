@@ -6,6 +6,7 @@ package FrontEnd;
 
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -119,12 +120,18 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEscolherArquivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEscolherArquivoMouseClicked
+        // ABRE A CAIXA DE NAVEGAÇÃO PARA PESQUISAR O ARQUIVO
         JFileChooser arquivoEscolhido = new JFileChooser();
+
+        // EXIBE OS ARQUIVOS
         arquivoEscolhido.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int i = arquivoEscolhido.showSaveDialog(null);
-        if (i == 1) {
-            txtEndereco.setText("");
-        } else {
+
+        // FILTRA O ARQUIVO PARA EXIBIR APENAS .TXT
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+        arquivoEscolhido.setFileFilter(filtro);
+
+        // CASO O USUÁRIO ESCOLHA UM ARQUIVO
+        if (arquivoEscolhido.showSaveDialog(null) == 0) {
             File arquivo = arquivoEscolhido.getSelectedFile();
             txtEndereco.setText(arquivo.getPath());
         }
