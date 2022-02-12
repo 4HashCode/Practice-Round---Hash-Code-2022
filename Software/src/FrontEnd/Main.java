@@ -4,6 +4,9 @@
  */
 package FrontEnd;
 
+import java.io.File;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author samuel
@@ -15,6 +18,7 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -26,21 +30,105 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlFundo = new javax.swing.JPanel();
+        pnlBarraInferior = new javax.swing.JPanel();
+        btnEscolherArquivo = new javax.swing.JButton();
+        txtTituloEnd = new javax.swing.JLabel();
+        txtEndereco = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        pnlFundo.setBackground(new java.awt.Color(247, 243, 227));
+
+        pnlBarraInferior.setBackground(new java.awt.Color(168, 118, 62));
+
+        btnEscolherArquivo.setBackground(new java.awt.Color(111, 26, 7));
+        btnEscolherArquivo.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        btnEscolherArquivo.setForeground(new java.awt.Color(255, 255, 255));
+        btnEscolherArquivo.setText("Escolha um arquivo");
+        btnEscolherArquivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEscolherArquivoMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlBarraInferiorLayout = new javax.swing.GroupLayout(pnlBarraInferior);
+        pnlBarraInferior.setLayout(pnlBarraInferiorLayout);
+        pnlBarraInferiorLayout.setHorizontalGroup(
+            pnlBarraInferiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlBarraInferiorLayout.createSequentialGroup()
+                .addContainerGap(361, Short.MAX_VALUE)
+                .addComponent(btnEscolherArquivo)
+                .addContainerGap(396, Short.MAX_VALUE))
+        );
+        pnlBarraInferiorLayout.setVerticalGroup(
+            pnlBarraInferiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBarraInferiorLayout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addComponent(btnEscolherArquivo)
+                .addGap(33, 33, 33))
+        );
+
+        txtTituloEnd.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txtTituloEnd.setForeground(new java.awt.Color(0, 0, 0));
+        txtTituloEnd.setText("Endereço do arquivo:");
+
+        txtEndereco.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        txtEndereco.setForeground(new java.awt.Color(0, 0, 0));
+
+        javax.swing.GroupLayout pnlFundoLayout = new javax.swing.GroupLayout(pnlFundo);
+        pnlFundo.setLayout(pnlFundoLayout);
+        pnlFundoLayout.setHorizontalGroup(
+            pnlFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlFundoLayout.createSequentialGroup()
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addGroup(pnlFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnlFundoLayout.createSequentialGroup()
+                        .addComponent(txtTituloEnd)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlBarraInferior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(30, Short.MAX_VALUE))
+        );
+        pnlFundoLayout.setVerticalGroup(
+            pnlFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlFundoLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(pnlFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTituloEnd)
+                    .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 327, Short.MAX_VALUE)
+                .addComponent(pnlBarraInferior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnlFundo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(pnlFundo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEscolherArquivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEscolherArquivoMouseClicked
+        JFileChooser arquivoEscolhido = new JFileChooser();
+        arquivoEscolhido.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int i = arquivoEscolhido.showSaveDialog(null);
+        if (i == 1) {
+            txtEndereco.setText("");
+        } else {
+            File arquivo = arquivoEscolhido.getSelectedFile();
+            txtEndereco.setText(arquivo.getPath());
+        }
+    }//GEN-LAST:event_btnEscolherArquivoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -78,5 +166,10 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEscolherArquivo;
+    private javax.swing.JPanel pnlBarraInferior;
+    private javax.swing.JPanel pnlFundo;
+    private javax.swing.JLabel txtEndereco;
+    private javax.swing.JLabel txtTituloEnd;
     // End of variables declaration//GEN-END:variables
 }
