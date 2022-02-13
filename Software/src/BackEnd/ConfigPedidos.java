@@ -22,19 +22,6 @@ public class ConfigPedidos {
         this.listaPedidos = new ArrayList<Pedidos>();
     }
 
-    public void getPedidos() {
-        System.out.println("--- INGREDIENTES NECESSÁRIOS ---");
-        for(int i = 0; i < this.listaPedidos.size(); i++){
-            System.out.println("Pedido "+(i+1)+" ---> "+this.listaPedidos.get(i).getTer());
-            
-        }
-        
-        System.out.println("-- INGREDIENTES DESNECESSÁRIOS --");
-        for(int i = 0; i < this.listaPedidos.size(); i++){
-            System.out.println("Pedido "+(i+1)+" ---> "+this.listaPedidos.get(i).getNaoter());
-        }
-    }
-
     public void leitor(String path) throws IOException {
 
         BufferedReader buffRead = new BufferedReader(new FileReader(path));
@@ -42,7 +29,6 @@ public class ConfigPedidos {
         int i = -1;
         String[] pedidos = new String[2];
         while (true) {
-
             i++;
             if (linha != null) {
                 if (i % 2 == 0) {
@@ -50,10 +36,11 @@ public class ConfigPedidos {
                 } else if (i % 2 != 0 && i != 1) {
                     pedidos[1] = linha;
 
-                    if(this.listaPedidos.size() <= 100000)
+                    if (this.listaPedidos.size() <= 100000) {
                         listaPedidos.add(new Pedidos(pedidos[0], pedidos[1]));
-                    else
+                    } else {
                         JOptionPane.showMessageDialog(null, "Muitos pedidos no momento, tente novamente mais tarde");
+                    }
                 }
             } else {
                 break;
@@ -62,4 +49,66 @@ public class ConfigPedidos {
         }
     }
 
+    public void getPedidos() {
+        System.out.println("--- INGREDIENTES NECESSÁRIOS ---");
+        for (int i = 0; i < this.listaPedidos.size(); i++) {
+            System.out.println("Pedido " + (i + 1) + " ---> " + this.listaPedidos.get(i).getTer());
+
+        }
+
+        System.out.println("-- INGREDIENTES DESNECESSÁRIOS --");
+        for (int i = 0; i < this.listaPedidos.size(); i++) {
+            System.out.println("Pedido " + (i + 1) + " ---> " + this.listaPedidos.get(i).getNaoter());
+        }
+    }
+
+    public String getIngredientes() {
+        for (int i = 0; i < this.listaPedidos.size(); i++) {
+
+            if (this.listaPedidos.get(i).naoter.substring(0, 1).equals("1")) {
+                for (int j = 0; j < this.listaPedidos.size(); j++) {
+                    if (this.listaPedidos.get(j).ter.contains(this.listaPedidos.get(i).naoter.substring(2, this.listaPedidos.get(i).naoter.length()))) {
+                        this.listaPedidos.get(j).setTer("");
+                    }
+                }
+                this.listaPedidos.get(i).setNaoter("");
+            } else if (this.listaPedidos.get(i).naoter.substring(0, 1).equals("0")) {
+                continue;
+            } else {
+                int inicio = 2;
+                for (int j = 3; j < this.listaPedidos.get(i).naoter.length(); j++) {
+
+                    if (this.listaPedidos.get(i).naoter.substring(j - 1, j).equals(" ")) {
+                        for (int h = 0; h < this.listaPedidos.size(); h++) {
+                            if (this.listaPedidos.get(h).ter.contains(this.listaPedidos.get(i).naoter.substring(inicio, j - 1))) {
+                                this.listaPedidos.get(h).setTer("");
+                            }
+                        }
+                        inicio = j + 1;
+                    }
+                }
+            }
+        }
+        String ingredientes = " ";
+        int quantidade = 0;
+
+        for (int i = 0; i < this.listaPedidos.size(); i++) {
+            if (this.listaPedidos.get(i).ter != "") {
+                int inicio = 2;
+                for (int j = 3; j <= this.listaPedidos.get(i).ter.length(); j++) {
+                    if (this.listaPedidos.get(i).ter.substring(j - 1, j).equals(" ") || (j == this.listaPedidos.get(i).ter.length())) {
+                        if (!ingredientes.contains(this.listaPedidos.get(i).ter.substring(inicio, j - 1))) {
+                            JOptionPane.showMessageDialog(null, "|" + this.listaPedidos.get(i).ter.substring(inicio, j - 1) + "|");
+
+                            ingredientes = ingredientes + this.listaPedidos.get(i).ter.substring(inicio, j) + " ";
+                            quantidade++;
+                        }
+                        inicio = j;
+                    }
+                }
+            }
+        }
+        return quantidade + ingredientes;
+
+    }
 }

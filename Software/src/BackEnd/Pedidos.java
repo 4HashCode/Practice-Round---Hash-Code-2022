@@ -25,6 +25,15 @@ public class Pedidos {
     public String getNaoter() {
         return naoter;
     }
+    
+    public void setTer(String valor) {
+        this.ter = valor;
+    }
+
+    public void setNaoter(String valor) {
+        this.naoter = valor;
+    }
+
 
 
 

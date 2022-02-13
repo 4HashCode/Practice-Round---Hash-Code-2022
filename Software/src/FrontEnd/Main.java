@@ -147,6 +147,8 @@ public class Main extends javax.swing.JFrame {
             try {
                 configPedidos.leitor(txtEndereco.getText());
                 configPedidos.getPedidos();
+                System.out.print("\n--INGREDIENTES FINAIS--\n");
+                System.out.print(configPedidos.getIngredientes());
                 JOptionPane.showMessageDialog(this, "Pedidos efetuados com sucesso");
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -155,6 +157,8 @@ public class Main extends javax.swing.JFrame {
             // MUDA O NOME DO BOTÃO
             this.btnEscolherArquivo.setText("Escolha outro arquivo");
         }
+        
+        
 
     }//GEN-LAST:event_btnEscolherArquivoMouseClicked
 
