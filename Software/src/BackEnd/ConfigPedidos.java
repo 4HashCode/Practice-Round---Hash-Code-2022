@@ -98,8 +98,6 @@ public class ConfigPedidos {
                 for (int j = 3; j <= this.listaPedidos.get(i).ter.length(); j++) {
                     if (this.listaPedidos.get(i).ter.substring(j - 1, j).equals(" ") || (j == this.listaPedidos.get(i).ter.length())) {
                         if (!ingredientes.contains(this.listaPedidos.get(i).ter.substring(inicio, j - 1))) {
-                            JOptionPane.showMessageDialog(null, "|" + this.listaPedidos.get(i).ter.substring(inicio, j - 1) + "|");
-
                             ingredientes = ingredientes + this.listaPedidos.get(i).ter.substring(inicio, j) + " ";
                             quantidade++;
                         }
