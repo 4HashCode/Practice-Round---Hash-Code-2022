@@ -96,7 +96,7 @@ public class ConfigPedidos {
                 }
             }
         }
-        return quantidade + ingredientes;
+        return quantidade + ingredientes.substring(0, ingredientes.length() -1);
 
     }
 }
