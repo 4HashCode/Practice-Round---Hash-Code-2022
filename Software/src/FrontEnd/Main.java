@@ -197,6 +197,7 @@ public class Main extends javax.swing.JFrame {
 
             // MUDA O NOME DO BOTÃO
             this.btnEscolherArquivo.setText("Escolha outro arquivo");
+            configPedidos.limpar();
         }
 
 

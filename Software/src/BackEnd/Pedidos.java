@@ -33,8 +33,4 @@ public class Pedidos {
     public void setNaoter(String valor) {
         this.naoter = valor;
     }
-
-
-
-
 }

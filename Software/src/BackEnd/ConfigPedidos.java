@@ -21,7 +21,10 @@ public class ConfigPedidos {
     public ConfigPedidos() {
         this.listaPedidos = new ArrayList<Pedidos>();
     }
-
+    public void limpar(){
+        this.listaPedidos.clear();
+    }
+    
     public void leitor(String path) throws IOException {
 
         BufferedReader buffRead = new BufferedReader(new FileReader(path));
@@ -98,7 +101,10 @@ public class ConfigPedidos {
                 for (int j = 3; j <= this.listaPedidos.get(i).getTer().length(); j++) {
                     if (this.listaPedidos.get(i).getTer().substring(j - 1, j).equals(" ") || (j == this.listaPedidos.get(i).getTer().length())) {
                         if (!ingredientes.contains(this.listaPedidos.get(i).getTer().substring(inicio, j - 1))) {
-                            ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(inicio, j) + " ";
+                            ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(inicio, j);
+                            if(!ingredientes.substring(ingredientes.length() - 1, ingredientes.length()).equals(" ")){
+                                ingredientes = ingredientes + " ";
+                            }
                             quantidade++;
                         }
                         inicio = j;
