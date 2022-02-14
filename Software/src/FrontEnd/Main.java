@@ -5,7 +5,6 @@
 package FrontEnd;
 
 import BackEnd.ConfigPedidos;
-import BackEnd.Pedidos;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -27,7 +26,12 @@ public class Main extends javax.swing.JFrame {
 
     public Main() {
         initComponents();
-        configPedidos = new ConfigPedidos();
+        this.setLocationRelativeTo(null);
+        this.configPedidos = new ConfigPedidos();
+
+        this.txtTituloResultado.setText(" ");
+        this.txtResultado.setText(" ");
+        this.btnCopiar.setVisible(false);
     }
 
     /**
@@ -44,6 +48,11 @@ public class Main extends javax.swing.JFrame {
         btnEscolherArquivo = new javax.swing.JButton();
         txtTituloEnd = new javax.swing.JLabel();
         txtEndereco = new javax.swing.JLabel();
+        sep = new javax.swing.JSeparator();
+        pnlResultado = new javax.swing.JPanel();
+        txtTituloResultado = new javax.swing.JLabel();
+        txtResultado = new javax.swing.JLabel();
+        btnCopiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,9 +75,9 @@ public class Main extends javax.swing.JFrame {
         pnlBarraInferiorLayout.setHorizontalGroup(
             pnlBarraInferiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBarraInferiorLayout.createSequentialGroup()
-                .addContainerGap(361, Short.MAX_VALUE)
+                .addContainerGap(378, Short.MAX_VALUE)
                 .addComponent(btnEscolherArquivo)
-                .addContainerGap(396, Short.MAX_VALUE))
+                .addContainerGap(378, Short.MAX_VALUE))
         );
         pnlBarraInferiorLayout.setVerticalGroup(
             pnlBarraInferiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -85,19 +94,43 @@ public class Main extends javax.swing.JFrame {
         txtEndereco.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         txtEndereco.setForeground(new java.awt.Color(0, 0, 0));
 
+        pnlResultado.setBackground(new java.awt.Color(247, 243, 227));
+        pnlResultado.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        txtTituloResultado.setBackground(new java.awt.Color(204, 204, 204));
+        txtTituloResultado.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txtTituloResultado.setForeground(new java.awt.Color(0, 0, 0));
+        txtTituloResultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtTituloResultado.setText("A PIZZA FINAL SERÁ:");
+        pnlResultado.add(txtTituloResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 6, 937, -1));
+
+        txtResultado.setBackground(new java.awt.Color(204, 204, 204));
+        txtResultado.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        txtResultado.setForeground(new java.awt.Color(111, 26, 7));
+        txtResultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txtResultado.setText("Nome");
+        pnlResultado.add(txtResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 41, 859, 22));
+
+        btnCopiar.setBackground(new java.awt.Color(111, 26, 7));
+        btnCopiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnCopiar.setText("copiar");
+        pnlResultado.add(btnCopiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(865, 41, -1, -1));
+
         javax.swing.GroupLayout pnlFundoLayout = new javax.swing.GroupLayout(pnlFundo);
         pnlFundo.setLayout(pnlFundoLayout);
         pnlFundoLayout.setHorizontalGroup(
             pnlFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlFundoLayout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(28, Short.MAX_VALUE)
                 .addGroup(pnlFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlFundoLayout.createSequentialGroup()
                         .addComponent(txtTituloEnd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(pnlBarraInferior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(30, Short.MAX_VALUE))
+                    .addComponent(pnlBarraInferior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sep)
+                    .addComponent(pnlResultado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         pnlFundoLayout.setVerticalGroup(
             pnlFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,18 +139,20 @@ public class Main extends javax.swing.JFrame {
                 .addGroup(pnlFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTituloEnd)
                     .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 327, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(sep, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(pnlResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
                 .addComponent(pnlBarraInferior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pnlFundo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(pnlFundo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,6 +163,11 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEscolherArquivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEscolherArquivoMouseClicked
+        // LIMPA A LISTA DE PEDIDOS DO ARRAY LIST ANTE DE PREENCHER OUTRO 
+        if (this.btnEscolherArquivo.getText().equals("Escolha outro arquivo")) {
+            this.configPedidos.setLimparLista();
+        }
+
         // ABRE A CAIXA DE NAVEGAÇÃO PARA PESQUISAR O ARQUIVO
         JFileChooser arquivoEscolhido = new JFileChooser();
 
@@ -147,18 +187,22 @@ public class Main extends javax.swing.JFrame {
             try {
                 configPedidos.leitor(txtEndereco.getText());
                 configPedidos.getPedidos();
-                System.out.print("\n--INGREDIENTES FINAIS--\n");
-                System.out.print(configPedidos.getIngredientes());
-                JOptionPane.showMessageDialog(this, "Pedidos efetuados com sucesso");
+
+                // MOSTRA O RESULTADO DA PIZZA
+                this.btnCopiar.setVisible(true);
+                this.txtTituloResultado.setText("A PIZZA FINAL SERÁ:");
+                this.txtResultado.setText(configPedidos.getIngredientes());
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            // MSG DE SUCESSO
+            JOptionPane.showMessageDialog(this, "Pedidos efetuados com sucesso");
+
             // MUDA O NOME DO BOTÃO
             this.btnEscolherArquivo.setText("Escolha outro arquivo");
         }
-        
-        
+
 
     }//GEN-LAST:event_btnEscolherArquivoMouseClicked
 
@@ -198,10 +242,15 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCopiar;
     private javax.swing.JButton btnEscolherArquivo;
     private javax.swing.JPanel pnlBarraInferior;
     private javax.swing.JPanel pnlFundo;
+    private javax.swing.JPanel pnlResultado;
+    private javax.swing.JSeparator sep;
     private javax.swing.JLabel txtEndereco;
+    private javax.swing.JLabel txtResultado;
     private javax.swing.JLabel txtTituloEnd;
+    private javax.swing.JLabel txtTituloResultado;
     // End of variables declaration//GEN-END:variables
 }

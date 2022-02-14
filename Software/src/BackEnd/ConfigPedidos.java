@@ -65,22 +65,22 @@ public class ConfigPedidos {
     public String getIngredientes() {
         for (int i = 0; i < this.listaPedidos.size(); i++) {
 
-            if (this.listaPedidos.get(i).naoter.substring(0, 1).equals("1")) {
+            if (this.listaPedidos.get(i).getNaoter().substring(0, 1).equals("1")) {
                 for (int j = 0; j < this.listaPedidos.size(); j++) {
-                    if (this.listaPedidos.get(j).ter.contains(this.listaPedidos.get(i).naoter.substring(2, this.listaPedidos.get(i).naoter.length()))) {
+                    if (this.listaPedidos.get(j).getTer().contains(this.listaPedidos.get(i).getNaoter().substring(2, this.listaPedidos.get(i).getNaoter().length()))) {
                         this.listaPedidos.get(j).setTer("");
                     }
                 }
                 this.listaPedidos.get(i).setNaoter("");
-            } else if (this.listaPedidos.get(i).naoter.substring(0, 1).equals("0")) {
+            } else if (this.listaPedidos.get(i).getNaoter().substring(0, 1).equals("0")) {
                 continue;
             } else {
                 int inicio = 2;
-                for (int j = 3; j < this.listaPedidos.get(i).naoter.length(); j++) {
+                for (int j = 3; j < this.listaPedidos.get(i).getNaoter().length(); j++) {
 
-                    if (this.listaPedidos.get(i).naoter.substring(j - 1, j).equals(" ")) {
+                    if (this.listaPedidos.get(i).getNaoter().substring(j - 1, j).equals(" ")) {
                         for (int h = 0; h < this.listaPedidos.size(); h++) {
-                            if (this.listaPedidos.get(h).ter.contains(this.listaPedidos.get(i).naoter.substring(inicio, j - 1))) {
+                            if (this.listaPedidos.get(h).getTer().contains(this.listaPedidos.get(i).getNaoter().substring(inicio, j - 1))) {
                                 this.listaPedidos.get(h).setTer("");
                             }
                         }
@@ -93,12 +93,12 @@ public class ConfigPedidos {
         int quantidade = 0;
 
         for (int i = 0; i < this.listaPedidos.size(); i++) {
-            if (this.listaPedidos.get(i).ter != "") {
+            if (this.listaPedidos.get(i).getTer() != "") {
                 int inicio = 2;
-                for (int j = 3; j <= this.listaPedidos.get(i).ter.length(); j++) {
-                    if (this.listaPedidos.get(i).ter.substring(j - 1, j).equals(" ") || (j == this.listaPedidos.get(i).ter.length())) {
-                        if (!ingredientes.contains(this.listaPedidos.get(i).ter.substring(inicio, j - 1))) {
-                            ingredientes = ingredientes + this.listaPedidos.get(i).ter.substring(inicio, j) + " ";
+                for (int j = 3; j <= this.listaPedidos.get(i).getTer().length(); j++) {
+                    if (this.listaPedidos.get(i).getTer().substring(j - 1, j).equals(" ") || (j == this.listaPedidos.get(i).getTer().length())) {
+                        if (!ingredientes.contains(this.listaPedidos.get(i).getTer().substring(inicio, j - 1))) {
+                            ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(inicio, j) + " ";
                             quantidade++;
                         }
                         inicio = j;
@@ -109,4 +109,14 @@ public class ConfigPedidos {
         return quantidade + ingredientes;
 
     }
+
+    // EXCLUI TODOS OS ITENS DO ARRAY LIST DE PEDIDOS
+    public void setLimparLista() {
+        if (!this.listaPedidos.isEmpty()) {
+            for (int i = 0; i < this.listaPedidos.size(); i++) {
+                this.listaPedidos.remove(i);
+            }
+        }
+    }
+
 }

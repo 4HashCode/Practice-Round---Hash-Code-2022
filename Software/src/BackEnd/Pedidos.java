@@ -10,8 +10,8 @@ package BackEnd;
  */
 public class Pedidos {
 
-    protected String ter;
-    protected String naoter;
+    private String ter;
+    private String naoter;
 
     public Pedidos(String podeTer, String naoPode) {
         this.ter = podeTer;
