@@ -49,19 +49,6 @@ public class ConfigPedidos {
         }
     }
 
-    public void getPedidos() {
-        System.out.println("--- INGREDIENTES NECESSÁRIOS ---");
-        for (int i = 0; i < this.listaPedidos.size(); i++) {
-            System.out.println("Pedido " + (i + 1) + " ---> " + this.listaPedidos.get(i).getTer());
-
-        }
-
-        System.out.println("-- INGREDIENTES DESNECESSÁRIOS --");
-        for (int i = 0; i < this.listaPedidos.size(); i++) {
-            System.out.println("Pedido " + (i + 1) + " ---> " + this.listaPedidos.get(i).getNaoter());
-        }
-    }
-
     public String getIngredientes() {
         for (int i = 0; i < this.listaPedidos.size(); i++) {
 
