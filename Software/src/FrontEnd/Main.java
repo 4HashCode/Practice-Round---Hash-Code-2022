@@ -5,8 +5,13 @@
 package FrontEnd;
 
 import BackEnd.ConfigPedidos;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -23,10 +28,14 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     private ConfigPedidos configPedidos;
+    private String archiveChoose;
 
     public Main() {
         initComponents();
         this.setLocationRelativeTo(null);
+
+        this.setTitle("One pizza");
+        this.archiveChoose = "";
 
         this.txtTituloResultado.setText(" ");
         this.txtResultado.setText(" ");
@@ -54,6 +63,7 @@ public class Main extends javax.swing.JFrame {
         btnCopiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         pnlFundo.setBackground(new java.awt.Color(247, 243, 227));
 
@@ -74,9 +84,9 @@ public class Main extends javax.swing.JFrame {
         pnlBarraInferiorLayout.setHorizontalGroup(
             pnlBarraInferiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBarraInferiorLayout.createSequentialGroup()
-                .addContainerGap(378, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnEscolherArquivo)
-                .addContainerGap(378, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlBarraInferiorLayout.setVerticalGroup(
             pnlBarraInferiorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,35 +111,40 @@ public class Main extends javax.swing.JFrame {
         txtTituloResultado.setForeground(new java.awt.Color(0, 0, 0));
         txtTituloResultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtTituloResultado.setText("A PIZZA FINAL SERÁ:");
-        pnlResultado.add(txtTituloResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 6, 937, -1));
+        pnlResultado.add(txtTituloResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 6, 620, -1));
 
         txtResultado.setBackground(new java.awt.Color(204, 204, 204));
         txtResultado.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         txtResultado.setForeground(new java.awt.Color(111, 26, 7));
         txtResultado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtResultado.setText("Nome");
-        pnlResultado.add(txtResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 41, 859, 22));
+        pnlResultado.add(txtResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 41, 540, 22));
 
         btnCopiar.setBackground(new java.awt.Color(111, 26, 7));
         btnCopiar.setForeground(new java.awt.Color(255, 255, 255));
-        btnCopiar.setText("copiar");
-        pnlResultado.add(btnCopiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(865, 41, -1, -1));
+        btnCopiar.setText("exportar");
+        btnCopiar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCopiarMouseClicked(evt);
+            }
+        });
+        pnlResultado.add(btnCopiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, -1, -1));
 
         javax.swing.GroupLayout pnlFundoLayout = new javax.swing.GroupLayout(pnlFundo);
         pnlFundo.setLayout(pnlFundoLayout);
         pnlFundoLayout.setHorizontalGroup(
             pnlFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlFundoLayout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(pnlFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlFundoLayout.createSequentialGroup()
                         .addComponent(txtTituloEnd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtEndereco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(pnlBarraInferior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sep)
-                    .addComponent(pnlResultado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                    .addComponent(pnlResultado, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
+                    .addComponent(sep))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         pnlFundoLayout.setVerticalGroup(
             pnlFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -151,7 +166,9 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlFundo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnlFundo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,12 +195,12 @@ public class Main extends javax.swing.JFrame {
         if (arquivoEscolhido.showSaveDialog(null) == 0) {
             // COLETA O ARQUIVO SELECIONADO
             File arquivo = arquivoEscolhido.getSelectedFile();
-            txtEndereco.setText(arquivo.getPath());
+            this.txtEndereco.setText(arquivo.getPath());
+            this.archiveChoose = arquivo.getName();
 
             try {
-                configPedidos.leitor(txtEndereco.getText());
-                configPedidos.getPedidos();
-
+                this.configPedidos.leitor(txtEndereco.getText());
+                
                 // MOSTRA O RESULTADO DA PIZZA
                 this.btnCopiar.setVisible(true);
                 this.txtTituloResultado.setText("A PIZZA FINAL SERÁ:");
@@ -192,16 +209,39 @@ public class Main extends javax.swing.JFrame {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            // MSG DE SUCESSO
-            JOptionPane.showMessageDialog(this, "Pedidos efetuados com sucesso");
-
             // MUDA O NOME DO BOTÃO
             this.btnEscolherArquivo.setText("Escolha outro arquivo");
-            configPedidos.limpar();
+        }
+
+    }//GEN-LAST:event_btnEscolherArquivoMouseClicked
+
+    private void btnCopiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCopiarMouseClicked
+        // ABRE A CAIXA DE NAVEGAÇÃO PARA PESQUISAR O ARQUIVO
+        JFileChooser arquivoEscolhido = new JFileChooser();
+        arquivoEscolhido.setDialogTitle("Escolha o local para salvar o arquivo");
+
+        // EXIBE OS ARQUIVOS
+        arquivoEscolhido.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        // CASO O USUÁRIO ESCOLHA UM ARQUIVO
+        if (arquivoEscolhido.showSaveDialog(null) == 0) {
+            // INSTANCIA O ARQUIVO E PEGA O ENDEREÇO DELE
+            File arquivo = arquivoEscolhido.getSelectedFile();
+
+            try {
+                OutputStream os = new FileOutputStream(arquivo.getPath().replace("\\", "\\\\")+"\\Result-"+this.archiveChoose); // nome do arquivo que será escrito
+                Writer wr = new OutputStreamWriter(os); // criação de um escritor
+                BufferedWriter br = new BufferedWriter(wr); // adiciono a um escritor de buffer
+                
+                br.write(txtResultado.getText());
+                br.close();
+            }catch(IOException e){
+                JOptionPane.showMessageDialog(this, "erro ao exportar arquivo");
+            }
         }
 
 
-    }//GEN-LAST:event_btnEscolherArquivoMouseClicked
+    }//GEN-LAST:event_btnCopiarMouseClicked
 
     /**
      * @param args the command line arguments

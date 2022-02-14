@@ -21,9 +21,6 @@ public class ConfigPedidos {
     public ConfigPedidos() {
         this.listaPedidos = new ArrayList<Pedidos>();
     }
-    public void limpar(){
-        this.listaPedidos.clear();
-    }
     
     public void leitor(String path) throws IOException {
 
