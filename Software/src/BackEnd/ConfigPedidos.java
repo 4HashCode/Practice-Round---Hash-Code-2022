@@ -109,14 +109,4 @@ public class ConfigPedidos {
         return quantidade + ingredientes;
 
     }
-
-    // EXCLUI TODOS OS ITENS DO ARRAY LIST DE PEDIDOS
-    public void setLimparLista() {
-        if (!this.listaPedidos.isEmpty()) {
-            for (int i = 0; i < this.listaPedidos.size(); i++) {
-                this.listaPedidos.remove(i);
-            }
-        }
-    }
-
 }

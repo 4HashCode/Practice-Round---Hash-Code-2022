@@ -27,7 +27,6 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         this.setLocationRelativeTo(null);
-        this.configPedidos = new ConfigPedidos();
 
         this.txtTituloResultado.setText(" ");
         this.txtResultado.setText(" ");
@@ -163,10 +162,7 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEscolherArquivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEscolherArquivoMouseClicked
-        // LIMPA A LISTA DE PEDIDOS DO ARRAY LIST ANTE DE PREENCHER OUTRO 
-        if (this.btnEscolherArquivo.getText().equals("Escolha outro arquivo")) {
-            this.configPedidos.setLimparLista();
-        }
+        this.configPedidos = new ConfigPedidos();
 
         // ABRE A CAIXA DE NAVEGAÇÃO PARA PESQUISAR O ARQUIVO
         JFileChooser arquivoEscolhido = new JFileChooser();
