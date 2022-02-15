@@ -201,12 +201,12 @@ public class Main extends javax.swing.JFrame {
 
             try {
                 this.configPedidos.leitor(txtEndereco.getText());
-
+                this.configPedidos.setListar();
                 // RECEBE OS ELEMENTOS E QTD VEZES ELE SE REPETIU
-                this.configPedidos.setListarFavoraveis();
+                //this.configPedidos.setListarFavoraveis();
 
-                this.configPedidos.setSelecionarRentaveis();
-                this.configPedidos.getSimulacao("cheese");
+                //this.configPedidos.setSelecionarRentaveis();
+                //this.configPedidos.getSimulacao("cheese");
 
                 // MOSTRA O RESULTADO DA PIZZA
                 this.btnExportar.setVisible(true);

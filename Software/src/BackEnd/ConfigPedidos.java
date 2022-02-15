@@ -18,12 +18,15 @@ public class ConfigPedidos {
 
     private ArrayList<Pedidos> listaPedidos;
     private ArrayList<PedidosFavoraveis> pedidosFavoraveis;
+    private ArrayList<PedidosNaoTer> listaPedidosNaoTer;
+
     private int tamanhoPedido;
     private String path;
 
     public ConfigPedidos() {
         this.listaPedidos = new ArrayList<Pedidos>();
         this.pedidosFavoraveis = new ArrayList<PedidosFavoraveis>();
+        this.listaPedidosNaoTer = new ArrayList<PedidosNaoTer>();
         this.path = "";
     }
 
@@ -119,6 +122,80 @@ public class ConfigPedidos {
                     this.pedidosFavoraveis.get(j).setQtdRepeticoes();
                 }
             }
+        }
+    }
+    
+    //Procedimento que preenche os ingredientes favoraveis
+    public void setListar() {
+        //Variável para lista os ingredientes
+        String ingredientes = "";
+        for (int i = 0; i < this.listaPedidos.size(); i++) {
+            boolean isExists = false;
+            //Se o primeiro caracter da lista de ingredientes necessarios é igual a 1
+            if (this.listaPedidos.get(i).getNaoter().substring(0, 1).equals("1")) {
+                //Pega o ingrediente e verifica se ele está na lista de favoraveis
+                for (int j = 0; j <=this.listaPedidosNaoTer.size()+1; j++) {                   
+                    // SE O INGREDIENTE EXISTE, É INCREMENTRADO
+                    //É feito um recorte na string da posição 2 até o valor do tamanho dela, ou seja o final, delimitando o ingrediente
+                    //Nesse caso para apenas um ingrediente no pedido
+                    //É adicionado a lista de favoráveis o nome do ingrediente recortado, assim como na comparação feita na condição anterior
+                    if (isExists == false) {
+                        //Verifica se o ingrediente não existe mesmo na lista
+                        if (!ingredientes.contains((this.listaPedidos.get(i).getNaoter().substring(2, this.listaPedidos.get(i).getNaoter().length())))) {
+                            this.listaPedidosNaoTer.add(new PedidosNaoTer(this.listaPedidos.get(i).getNaoter().substring(2, this.listaPedidos.get(i).getNaoter().length()).replace(" ", "")));
+                            ingredientes = ingredientes + this.listaPedidos.get(i).getNaoter().substring(2, this.listaPedidos.get(i).getNaoter().length()) + " ";
+                        }
+                    }
+
+                }
+            } else {
+                //Começa após a quantidade de ingredientes e o espaço
+                int inicio = 2;
+
+                //Repete para cada caracter da string
+                for (int j = 3; j <= this.listaPedidos.get(i).getNaoter().length(); j++) {
+                    //System.out.print("\n\nLinha: " + i+ " -> "+inicio+ " "+ j);
+                    //Verifica se o caracter é um espaço, se for o caso, delimitamos o tamanho do ingrediente com o final em j e o início como 2 
+                    //(o valor de início muda para o número da posição do novo espaço mais 1, para saber o começo do próximo ingrediente)
+                    if (this.listaPedidos.get(i).getNaoter().substring(j - 1, j).equals(" ") || (j == this.listaPedidos.get(i).getNaoter().length())) {
+                        //System.out.print("\n"+inicio+ " "+ (j - 1));
+                        //System.out.print("\n" + this.listaPedidos.get(i).getTer().substring(inicio, j));
+                        for (int h = 0; h < this.pedidosFavoraveis.size(); h++) {
+                            //Verifica se o ingrediente não existe mesmo na lista
+                            if (!ingredientes.contains((this.listaPedidos.get(i).getNaoter().substring(inicio, j)))) {
+                                this.listaPedidosNaoTer.add(new PedidosNaoTer(this.listaPedidos.get(i).getNaoter().substring(inicio, j).replace(" ", "")));
+                                ingredientes = ingredientes + this.listaPedidos.get(i).getNaoter().substring(inicio, j) + " ";
+                            }
+                        }
+                        if (isExists == false) {
+                            //Verifica se o ingrediente não existe mesmo na lista
+                            if (!ingredientes.contains((this.listaPedidos.get(i).getNaoter().substring(inicio, j)))) {
+                                this.listaPedidosNaoTer.add(new PedidosNaoTer(this.listaPedidos.get(i).getNaoter().substring(inicio, j).replace(" ", "")));
+                                ingredientes = ingredientes + this.listaPedidos.get(i).getNaoter().substring(inicio, j) + " ";
+                            }
+                        }
+                        inicio = j;
+                    }
+                }
+            }
+        }
+        
+        for (int i = 0; i < this.listaPedidos.size(); i++) {
+            for(int j=0; j <this.listaPedidosNaoTer.size(); j++){
+                
+                if (this.listaPedidos.get(i).getTer().contains(this.listaPedidosNaoTer.get(j).getNaoter())) {
+                    this.listaPedidosNaoTer.get(j).setQtdRepeticoes();
+                }    
+            }
+        }
+        getListarNaoTer();
+    }
+    
+    public void getListarNaoTer() {
+        // PRINTA OS RESULTADOS
+        System.out.println("\n\n--- Resultado dos " + this.listaPedidosNaoTer.size() + " ingredientes que não devem estar na pizza---");
+        for (int i = 0; i < this.listaPedidosNaoTer.size(); i++) {
+            System.out.println("Ingrediente " + this.listaPedidosNaoTer.get(i).getNaoter());
         }
     }
 
