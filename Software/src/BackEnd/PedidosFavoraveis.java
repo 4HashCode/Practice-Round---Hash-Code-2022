@@ -8,29 +8,25 @@ package BackEnd;
  *
  * @author samuel
  */
-public class Pedidos {
-
+public class PedidosFavoraveis {
     private String ter;
-    private String naoter;
+    private int qtdRepeticoes;
 
-    public Pedidos(String podeTer, String naoPode) {
+    public PedidosFavoraveis(String podeTer) {
         this.ter = podeTer;
-        this.naoter = naoPode;
+        this.qtdRepeticoes = 0;
     }
 
     public String getTer() {
         return this.ter;
     }
 
-    public String getNaoter() {
-        return this.naoter;
-    }
-    
-    public void setTer(String valor) {
-        this.ter = valor;
+    public int getQtdRepeticoes() {
+        return this.qtdRepeticoes;
     }
 
-    public void setNaoter(String valor) {
-        this.naoter = valor;
+    public void setQtdRepeticoes() {
+        this.qtdRepeticoes += 1;
     }
+    
 }

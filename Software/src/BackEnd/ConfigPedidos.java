@@ -17,9 +17,11 @@ import javax.swing.JOptionPane;
 public class ConfigPedidos {
 
     private ArrayList<Pedidos> listaPedidos;
+    private ArrayList<PedidosFavoraveis> pedidosFavoraveis;
 
     public ConfigPedidos() {
         this.listaPedidos = new ArrayList<Pedidos>();
+        this.pedidosFavoraveis = new ArrayList<PedidosFavoraveis>();
     }
 
     public void leitor(String path) throws IOException {
@@ -47,6 +49,35 @@ public class ConfigPedidos {
             }
             linha = buffRead.readLine();
         }
+    }
+
+    public void setObterIngredientes() {
+        for (int i = 0; i < this.listaPedidos.size(); i++) {
+            boolean isExists = false;
+
+            // PROCURA SE JÁ EXISTE UM ELEMENTO NA LISTA DE FAVORAVEIS
+            for (int j = 0; j < this.pedidosFavoraveis.size(); j++) {
+                
+                // SE O INGREDIENTE EXISTE, É INCREMENTRADO
+                if (this.listaPedidos.get(i).getTer().equals(this.pedidosFavoraveis.get(j).getTer())) {
+                    this.pedidosFavoraveis.get(j).setQtdRepeticoes();
+                    isExists = true;
+                }
+            }
+
+            // SE O ELEMENTO NÃO EXISTE, CRIA UMA NOVA POSICAO
+            if (isExists == false) {
+                this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer()));
+            }
+        }
+        
+        
+        // PRINTA OS RESULTADOS
+        System.out.println("--- Resultado dos "+this.pedidosFavoraveis.size()+" ingredientes ---");
+        for(int i = 0; i < this.pedidosFavoraveis.size(); i++){
+            System.out.println("Ingrediente "+this.pedidosFavoraveis.get(i).getTer()+" repetiu "+this.pedidosFavoraveis.get(i).getQtdRepeticoes()+" vezes");
+        }
+        
     }
 
     public String getIngredientes() {
@@ -98,10 +129,11 @@ public class ConfigPedidos {
         return quantidade + ingredientes.substring(0, ingredientes.length() - 1);
 
     }
+
     public String getPontos() {
         int pontos = 0;
         for (int i = 0; i < this.listaPedidos.size(); i++) {
-            if(!(this.listaPedidos.get(i).getTer().equals(""))){
+            if (!(this.listaPedidos.get(i).getTer().equals(""))) {
                 pontos++;
             }
         }

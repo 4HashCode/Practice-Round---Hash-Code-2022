@@ -201,11 +201,13 @@ public class Main extends javax.swing.JFrame {
             try {
                 this.configPedidos.leitor(txtEndereco.getText());
                 
+                this.configPedidos.setObterIngredientes();
+                
                 // MOSTRA O RESULTADO DA PIZZA
                 this.btnCopiar.setVisible(true);
                 this.txtTituloResultado.setText("A PIZZA FINAL SERÁ:");
                 this.txtResultado.setText(configPedidos.getIngredientes());
-                System.out.print(configPedidos.getPontos());
+                System.out.println(configPedidos.getPontos());
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -213,7 +215,6 @@ public class Main extends javax.swing.JFrame {
             // MUDA O NOME DO BOTÃO
             this.btnEscolherArquivo.setText("Escolha outro arquivo");
         }
-
     }//GEN-LAST:event_btnEscolherArquivoMouseClicked
 
     private void btnCopiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCopiarMouseClicked
