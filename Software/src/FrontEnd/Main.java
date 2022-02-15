@@ -202,8 +202,8 @@ public class Main extends javax.swing.JFrame {
                 this.configPedidos.leitor(txtEndereco.getText());
 
                 // RECEBE OS ELEMENTOS E QTD VEZES ELE SE REPETIU
-                this.configPedidos.setObterIngredientes();
-
+                //this.configPedidos.setObterIngredientes();
+                this.configPedidos.setListaFavoraveis();
                 // MOSTRA O RESULTADO DA PIZZA
                 this.btnCopiar.setVisible(true);
                 this.txtTituloResultado.setText("A PIZZA FINAL SERÁ:");
