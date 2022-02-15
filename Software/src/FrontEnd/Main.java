@@ -200,9 +200,10 @@ public class Main extends javax.swing.JFrame {
 
             try {
                 this.configPedidos.leitor(txtEndereco.getText());
-                
+
+                // RECEBE OS ELEMENTOS E QTD VEZES ELE SE REPETIU
                 this.configPedidos.setObterIngredientes();
-                
+
                 // MOSTRA O RESULTADO DA PIZZA
                 this.btnCopiar.setVisible(true);
                 this.txtTituloResultado.setText("A PIZZA FINAL SERÁ:");
@@ -231,13 +232,13 @@ public class Main extends javax.swing.JFrame {
             File arquivo = arquivoEscolhido.getSelectedFile();
 
             try {
-                OutputStream os = new FileOutputStream(arquivo.getPath().replace("\\", "\\\\")+"\\Result-"+this.archiveChoose); // nome do arquivo que será escrito
+                OutputStream os = new FileOutputStream(arquivo.getPath().replace("\\", "\\\\") + "\\Result-" + this.archiveChoose); // nome do arquivo que será escrito
                 Writer wr = new OutputStreamWriter(os); // criação de um escritor
                 BufferedWriter br = new BufferedWriter(wr); // adiciono a um escritor de buffer
-                
+
                 br.write(txtResultado.getText());
                 br.close();
-            }catch(IOException e){
+            } catch (IOException e) {
                 JOptionPane.showMessageDialog(this, "erro ao exportar arquivo");
             }
         }
