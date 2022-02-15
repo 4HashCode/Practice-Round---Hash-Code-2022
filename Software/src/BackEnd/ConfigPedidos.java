@@ -71,7 +71,7 @@ public class ConfigPedidos {
                     if (isExists == false) {
                         //Verifica se o ingrediente não existe mesmo na lista
                         if (!ingredientes.contains((this.listaPedidos.get(i).getTer().substring(2, this.listaPedidos.get(i).getTer().length())))) {
-                            this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer().substring(2, this.listaPedidos.get(i).getTer().length())));
+                            this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer().substring(2, this.listaPedidos.get(i).getTer().length()).replace(" ", "")));
                             ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(2, this.listaPedidos.get(i).getTer().length()) + " ";
                         }
                     }
@@ -92,14 +92,14 @@ public class ConfigPedidos {
                         for (int h = 0; h < this.pedidosFavoraveis.size(); h++) {
                             //Verifica se o ingrediente não existe mesmo na lista
                             if (!ingredientes.contains((this.listaPedidos.get(i).getTer().substring(inicio, j)))) {
-                                this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer().substring(inicio, j)));
+                                this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer().substring(inicio, j).replace(" ", "")));
                                 ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(inicio, j) + " ";
                             }
                         }
                         if (isExists == false) {
                             //Verifica se o ingrediente não existe mesmo na lista
                             if (!ingredientes.contains((this.listaPedidos.get(i).getTer().substring(inicio, j)))) {
-                                this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer().substring(inicio, j)));
+                                this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer().substring(inicio, j).replace(" ", "")));
                                 ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(inicio, j) + " ";
                             }
                         }
@@ -112,7 +112,7 @@ public class ConfigPedidos {
         for (int i = 0; i < this.listaPedidos.size(); i++) {
             for(int j=0; j <this.pedidosFavoraveis.size(); j++){
                 
-                if (this.listaPedidos.get(i).getTer().contains(this.pedidosFavoraveis.get(j).getTer().replace(" ", ""))) {
+                if (this.listaPedidos.get(i).getTer().contains(this.pedidosFavoraveis.get(j).getTer())) {
                     this.pedidosFavoraveis.get(j).setQtdRepeticoes();
                 }    
             }
