@@ -18,10 +18,12 @@ public class ConfigPedidos {
 
     private ArrayList<Pedidos> listaPedidos;
     private ArrayList<PedidosFavoraveis> pedidosFavoraveis;
+    private int tamanhoPedido;
 
     public ConfigPedidos() {
         this.listaPedidos = new ArrayList<Pedidos>();
         this.pedidosFavoraveis = new ArrayList<PedidosFavoraveis>();
+        this.tamanhoPedido = 4;
     }
 
     public void leitor(String path) throws IOException {
@@ -51,35 +53,8 @@ public class ConfigPedidos {
         }
     }
 
-    public void setObterIngredientes() {
-        for (int i = 0; i < this.listaPedidos.size(); i++) {
-            boolean isExists = false;
-
-            // PROCURA SE JÁ EXISTE UM ELEMENTO NA LISTA DE FAVORAVEIS
-            for (int j = 0; j < this.pedidosFavoraveis.size(); j++) {
-
-                // SE O INGREDIENTE EXISTE, É INCREMENTRADO
-                if (this.listaPedidos.get(i).getTer().equals(this.pedidosFavoraveis.get(j).getTer())) {
-                    this.pedidosFavoraveis.get(j).setQtdRepeticoes();
-                    isExists = true;
-                }
-            }
-
-            // SE O ELEMENTO NÃO EXISTE, CRIA UMA NOVA POSICAO
-            if (isExists == false) {
-                this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer()));
-            }
-        }
-
-        // PRINTA OS RESULTADOS
-        System.out.println("\n\n--- Resultado dos " + this.pedidosFavoraveis.size() + " ingredientes ---");
-        for (int i = 0; i < this.pedidosFavoraveis.size(); i++) {
-            System.out.println("Ingrediente " + this.pedidosFavoraveis.get(i).getTer() + " repetiu " + this.pedidosFavoraveis.get(i).getQtdRepeticoes() + " vezes");
-        }
-
-    }
-    //Procedimento de teste para verificar quantidades dos ingredientes
-    public void setListaFavoraveis() {
+    //Procedimento que preenche os ingredientes favoraveis
+    public void setListarFavoraveis() {
         //Variável para lista os ingredientes
         String ingredientes = "";
         for (int i = 0; i < this.listaPedidos.size(); i++) {
@@ -92,11 +67,6 @@ public class ConfigPedidos {
                     // SE O INGREDIENTE EXISTE, É INCREMENTRADO
                     //É feito um recorte na string da posição 2 até o valor do tamanho dela, ou seja o final, delimitando o ingrediente
                     //Nesse caso para apenas um ingrediente no pedido
-                    if (this.listaPedidos.get(i).getTer().substring(2, this.listaPedidos.get(i).getTer().length()).equals(this.pedidosFavoraveis.get(j).getTer())) {
-                        this.pedidosFavoraveis.get(j).setQtdRepeticoes();
-                        isExists = true;
-                    }
-                    // SE O ELEMENTO NÃO EXISTE, CRIA UMA NOVA POSICAO
                     //É adicionado a lista de favoráveis o nome do ingrediente recortado, assim como na comparação feita na condição anterior
                     if (isExists == false) {
                         //Verifica se o ingrediente não existe mesmo na lista
@@ -120,23 +90,15 @@ public class ConfigPedidos {
                         //System.out.print("\n"+inicio+ " "+ (j - 1));
                         System.out.print("\n" + this.listaPedidos.get(i).getTer().substring(inicio, j));
                         for (int h = 0; h < this.pedidosFavoraveis.size(); h++) {
-                            //JOptionPane.showMessageDialog(null,"|"+this.listaPedidos.get(i).getTer().substring(inicio, j - 1)+"| é igual a |" +this.pedidosFavoraveis.get(h).getTer()+ "|");
-                            if (this.listaPedidos.get(i).getTer().substring(inicio, j - 2).equals(this.pedidosFavoraveis.get(h).getTer())) {
-                                this.pedidosFavoraveis.get(h).setQtdRepeticoes();
-                                isExists = true;
-                            } // SE O ELEMENTO NÃO EXISTE, CRIA UMA NOVA POSICAO
-                            //É adicionado a lista de favoráveis o nome do ingrediente recortado, assim como na comparação feita na condição anterior
-                            //JOptionPane.showMessageDialog(null,"|"+this.listaPedidos.get(i).getTer().substring(inicio, j - 1)+"| ");
-                            else { //Verifica se o ingrediente não existe mesmo na lista
-                                if (!ingredientes.contains((this.listaPedidos.get(i).getTer().substring(inicio, j)))) {
-                                    this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer().substring(inicio, j)));
-                                    ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(inicio, j) + " ";
-                                }
 
+                            //Verifica se o ingrediente não existe mesmo na lista
+                            if (!ingredientes.contains((this.listaPedidos.get(i).getTer().substring(inicio, j)))) {
+                                this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer().substring(inicio, j)));
+                                ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(inicio, j) + " ";
                             }
                         }
                         if (isExists == false) {
-                             //Verifica se o ingrediente não existe mesmo na lista
+                            //Verifica se o ingrediente não existe mesmo na lista
                             if (!ingredientes.contains((this.listaPedidos.get(i).getTer().substring(inicio, j)))) {
                                 this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer().substring(inicio, j)));
                                 ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(inicio, j) + " ";
@@ -147,6 +109,9 @@ public class ConfigPedidos {
                 }
             }
         }
+    }
+
+    public void getListarFavoraveis() {
         // PRINTA OS RESULTADOS
         System.out.println("\n\n--- Resultado dos " + this.pedidosFavoraveis.size() + " ingredientes ---");
         for (int i = 0; i < this.pedidosFavoraveis.size(); i++) {
@@ -223,4 +188,14 @@ public class ConfigPedidos {
         }
         return "Pontos: " + pontos;
     }
+
+    public void getSelecionarRentaveis() {
+        this.tamanhoPedido = this.listaPedidos.size();
+
+        for (int i = 0; i < this.pedidosFavoraveis.size(); i++) {
+
+        }
+
+    }
+
 }

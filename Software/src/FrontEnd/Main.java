@@ -39,7 +39,7 @@ public class Main extends javax.swing.JFrame {
 
         this.txtTituloResultado.setText(" ");
         this.txtResultado.setText(" ");
-        this.btnCopiar.setVisible(false);
+        this.btnExportar.setVisible(false);
     }
 
     /**
@@ -60,7 +60,7 @@ public class Main extends javax.swing.JFrame {
         pnlResultado = new javax.swing.JPanel();
         txtTituloResultado = new javax.swing.JLabel();
         txtResultado = new javax.swing.JLabel();
-        btnCopiar = new javax.swing.JButton();
+        btnExportar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -120,15 +120,15 @@ public class Main extends javax.swing.JFrame {
         txtResultado.setText("Nome");
         pnlResultado.add(txtResultado, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 41, 540, 22));
 
-        btnCopiar.setBackground(new java.awt.Color(111, 26, 7));
-        btnCopiar.setForeground(new java.awt.Color(255, 255, 255));
-        btnCopiar.setText("exportar");
-        btnCopiar.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnExportar.setBackground(new java.awt.Color(111, 26, 7));
+        btnExportar.setForeground(new java.awt.Color(255, 255, 255));
+        btnExportar.setText("exportar");
+        btnExportar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCopiarMouseClicked(evt);
+                btnExportarMouseClicked(evt);
             }
         });
-        pnlResultado.add(btnCopiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, -1, -1));
+        pnlResultado.add(btnExportar, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, -1, -1));
 
         javax.swing.GroupLayout pnlFundoLayout = new javax.swing.GroupLayout(pnlFundo);
         pnlFundo.setLayout(pnlFundoLayout);
@@ -176,6 +176,7 @@ public class Main extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEscolherArquivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEscolherArquivoMouseClicked
@@ -202,10 +203,12 @@ public class Main extends javax.swing.JFrame {
                 this.configPedidos.leitor(txtEndereco.getText());
 
                 // RECEBE OS ELEMENTOS E QTD VEZES ELE SE REPETIU
-                //this.configPedidos.setObterIngredientes();
-                this.configPedidos.setListaFavoraveis();
+                this.configPedidos.setListarFavoraveis();
+
+                this.configPedidos.getSelecionarRentaveis();
+
                 // MOSTRA O RESULTADO DA PIZZA
-                this.btnCopiar.setVisible(true);
+                this.btnExportar.setVisible(true);
                 this.txtTituloResultado.setText("A PIZZA FINAL SERÁ:");
                 this.txtResultado.setText(configPedidos.getIngredientes());
                 System.out.println(configPedidos.getPontos());
@@ -218,7 +221,7 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEscolherArquivoMouseClicked
 
-    private void btnCopiarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCopiarMouseClicked
+    private void btnExportarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExportarMouseClicked
         // ABRE A CAIXA DE NAVEGAÇÃO PARA PESQUISAR O ARQUIVO
         JFileChooser arquivoEscolhido = new JFileChooser();
         arquivoEscolhido.setDialogTitle("Escolha o local para salvar o arquivo");
@@ -244,7 +247,7 @@ public class Main extends javax.swing.JFrame {
         }
 
 
-    }//GEN-LAST:event_btnCopiarMouseClicked
+    }//GEN-LAST:event_btnExportarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -282,8 +285,8 @@ public class Main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCopiar;
     private javax.swing.JButton btnEscolherArquivo;
+    private javax.swing.JButton btnExportar;
     private javax.swing.JPanel pnlBarraInferior;
     private javax.swing.JPanel pnlFundo;
     private javax.swing.JPanel pnlResultado;
