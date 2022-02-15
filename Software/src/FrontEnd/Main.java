@@ -205,8 +205,9 @@ public class Main extends javax.swing.JFrame {
                 // RECEBE OS ELEMENTOS E QTD VEZES ELE SE REPETIU
                 this.configPedidos.setListarFavoraveis();
 
-                this.configPedidos.getSelecionarRentaveis();
-                
+                this.configPedidos.setSelecionarRentaveis();
+                this.configPedidos.getSimulacao("cheese");
+
                 // MOSTRA O RESULTADO DA PIZZA
                 this.btnExportar.setVisible(true);
                 this.txtTituloResultado.setText("A PIZZA FINAL SERÁ:");

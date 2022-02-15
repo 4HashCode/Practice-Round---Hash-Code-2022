@@ -19,15 +19,17 @@ public class ConfigPedidos {
     private ArrayList<Pedidos> listaPedidos;
     private ArrayList<PedidosFavoraveis> pedidosFavoraveis;
     private int tamanhoPedido;
+    private String path;
 
     public ConfigPedidos() {
         this.listaPedidos = new ArrayList<Pedidos>();
         this.pedidosFavoraveis = new ArrayList<PedidosFavoraveis>();
+        this.path = "";
     }
 
     public void leitor(String path) throws IOException {
-
-        BufferedReader buffRead = new BufferedReader(new FileReader(path));
+        this.path = path;
+        BufferedReader buffRead = new BufferedReader(new FileReader(this.path));
         String linha = "";
         int i = -1;
         String[] pedidos = new String[2];
@@ -50,6 +52,7 @@ public class ConfigPedidos {
             }
             linha = buffRead.readLine();
         }
+        buffRead.close();
     }
 
     //Procedimento que preenche os ingredientes favoraveis
@@ -63,7 +66,7 @@ public class ConfigPedidos {
                 //Pega o ingrediente e verifica se ele está na lista de favoraveis
                 for (int j = 0; j < this.pedidosFavoraveis.size(); j++) {
                     isExists = false;
-                   
+
                     // SE O INGREDIENTE EXISTE, É INCREMENTRADO
                     //É feito um recorte na string da posição 2 até o valor do tamanho dela, ou seja o final, delimitando o ingrediente
                     //Nesse caso para apenas um ingrediente no pedido
@@ -110,21 +113,12 @@ public class ConfigPedidos {
         }
 
         for (int i = 0; i < this.listaPedidos.size(); i++) {
-            for(int j=0; j <this.pedidosFavoraveis.size(); j++){
-                
+            for (int j = 0; j < this.pedidosFavoraveis.size(); j++) {
+
                 if (this.listaPedidos.get(i).getTer().contains(this.pedidosFavoraveis.get(j).getTer())) {
                     this.pedidosFavoraveis.get(j).setQtdRepeticoes();
-                }    
+                }
             }
-        }
-        getListarFavoraveis();
-    }
-
-    public void getListarFavoraveis() {
-        // PRINTA OS RESULTADOS
-        System.out.println("\n\n--- Resultado dos " + this.pedidosFavoraveis.size() + " ingredientes ---");
-        for (int i = 0; i < this.pedidosFavoraveis.size(); i++) {
-            System.out.println("Ingrediente " + this.pedidosFavoraveis.get(i).getTer() + " repetiu " + this.pedidosFavoraveis.get(i).getQtdRepeticoes() + " vezes");
         }
     }
 
@@ -198,18 +192,56 @@ public class ConfigPedidos {
         return "Pontos: " + pontos;
     }
 
-    public void getSelecionarRentaveis() {
+    public void setSelecionarRentaveis() {
+        // QTD DE PEDIDOS
         this.tamanhoPedido = this.listaPedidos.size();
-        
-        System.out.println("\n\n");
+
         // DEFINE QUANTOS CLIENTES QUE CADA INGREDIENTE FARÁ PERDER, SE FOR TIRADO DA PIZZA
         for (int i = 0; i < this.pedidosFavoraveis.size(); i++) {
             // QTD DE REPETIÇÕES REMETE AO NUMERO DE VEZES QUE O INGREDIENTE APARECE EM CADA PIZZA
             int prejuizo = this.tamanhoPedido - this.pedidosFavoraveis.get(i).getQtdRepeticoes();
             this.pedidosFavoraveis.get(i).setQtdPrejuizo(prejuizo);
-            System.out.println("Se "+this.pedidosFavoraveis.get(i).getTer()+" for retirado, ficará apenas "+this.pedidosFavoraveis.get(i).getQtdPrejuizo()+" clientes");
+        }
+    }
+
+    public int getSimulacao(String naoPode) throws IOException {
+        // QTD DE PEDIDOS
+        this.tamanhoPedido = this.listaPedidos.size();
+
+        int qtd = 0;
+        int posicao = 0;
+        for (int v = 0; v < 1; v++) {
+            posicao++;
+            BufferedReader buffRead = new BufferedReader(new FileReader(this.path));
+            String linha = "";
+            while (true) {
+                if (linha != null) {
+                    // SE A LINHA CONTEM UM INGREDIENTE QUE NÃO PODE, E TIRADO OS PEDIDOS
+
+                    if (posicao % 2 > 0) {
+                        if (linha.contains(naoPode)) {
+                            System.out.println("Pedido " + linha + " cancelado :(");
+                            qtd++;
+                        }
+                    }
+                    else {
+                    continue;
+                    }
+                } else {
+                    break;
+                }
+                linha = buffRead.readLine();
+            }
+
+            buffRead.close();
         }
 
+        // RESULTADO
+        System.out.println("\n\nESTATISTICA");
+        System.out.println("Perdemos " + qtd+" clientes");
+        System.out.println("Ainda nos resta " + (this.tamanhoPedido - qtd) + " de " + (this.tamanhoPedido) +" clientes");
+
+        return 0;
     }
 
 }
