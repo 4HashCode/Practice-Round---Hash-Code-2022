@@ -205,6 +205,7 @@ public class Main extends javax.swing.JFrame {
                 this.btnCopiar.setVisible(true);
                 this.txtTituloResultado.setText("A PIZZA FINAL SERÁ:");
                 this.txtResultado.setText(configPedidos.getIngredientes());
+                System.out.print(configPedidos.getPontos());
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -21,7 +21,7 @@ public class ConfigPedidos {
     public ConfigPedidos() {
         this.listaPedidos = new ArrayList<Pedidos>();
     }
-    
+
     public void leitor(String path) throws IOException {
 
         BufferedReader buffRead = new BufferedReader(new FileReader(path));
@@ -64,7 +64,6 @@ public class ConfigPedidos {
             } else {
                 int inicio = 2;
                 for (int j = 3; j < this.listaPedidos.get(i).getNaoter().length(); j++) {
-
                     if (this.listaPedidos.get(i).getNaoter().substring(j - 1, j).equals(" ")) {
                         for (int h = 0; h < this.listaPedidos.size(); h++) {
                             if (this.listaPedidos.get(h).getTer().contains(this.listaPedidos.get(i).getNaoter().substring(inicio, j - 1))) {
@@ -86,7 +85,7 @@ public class ConfigPedidos {
                     if (this.listaPedidos.get(i).getTer().substring(j - 1, j).equals(" ") || (j == this.listaPedidos.get(i).getTer().length())) {
                         if (!ingredientes.contains(this.listaPedidos.get(i).getTer().substring(inicio, j - 1))) {
                             ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(inicio, j);
-                            if(!ingredientes.substring(ingredientes.length() - 1, ingredientes.length()).equals(" ")){
+                            if (!ingredientes.substring(ingredientes.length() - 1, ingredientes.length()).equals(" ")) {
                                 ingredientes = ingredientes + " ";
                             }
                             quantidade++;
@@ -96,7 +95,16 @@ public class ConfigPedidos {
                 }
             }
         }
-        return quantidade + ingredientes.substring(0, ingredientes.length() -1);
+        return quantidade + ingredientes.substring(0, ingredientes.length() - 1);
 
+    }
+    public String getPontos() {
+        int pontos = 0;
+        for (int i = 0; i < this.listaPedidos.size(); i++) {
+            if(!(this.listaPedidos.get(i).getTer().equals(""))){
+                pontos++;
+            }
+        }
+        return "Pontos: " + pontos;
     }
 }
