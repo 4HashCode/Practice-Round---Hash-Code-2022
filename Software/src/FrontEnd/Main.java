@@ -206,7 +206,7 @@ public class Main extends javax.swing.JFrame {
                 this.configPedidos.setListarFavoraveis();
 
                 this.configPedidos.getSelecionarRentaveis();
-
+                
                 // MOSTRA O RESULTADO DA PIZZA
                 this.btnExportar.setVisible(true);
                 this.txtTituloResultado.setText("A PIZZA FINAL SERÁ:");

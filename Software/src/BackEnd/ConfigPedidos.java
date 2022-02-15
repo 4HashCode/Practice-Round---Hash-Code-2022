@@ -23,7 +23,6 @@ public class ConfigPedidos {
     public ConfigPedidos() {
         this.listaPedidos = new ArrayList<Pedidos>();
         this.pedidosFavoraveis = new ArrayList<PedidosFavoraveis>();
-        this.tamanhoPedido = 4;
     }
 
     public void leitor(String path) throws IOException {
@@ -201,9 +200,14 @@ public class ConfigPedidos {
 
     public void getSelecionarRentaveis() {
         this.tamanhoPedido = this.listaPedidos.size();
-
+        
+        System.out.println("\n\n");
+        // DEFINE QUANTOS CLIENTES QUE CADA INGREDIENTE FARÁ PERDER, SE FOR TIRADO DA PIZZA
         for (int i = 0; i < this.pedidosFavoraveis.size(); i++) {
-
+            // QTD DE REPETIÇÕES REMETE AO NUMERO DE VEZES QUE O INGREDIENTE APARECE EM CADA PIZZA
+            int prejuizo = this.tamanhoPedido - this.pedidosFavoraveis.get(i).getQtdRepeticoes();
+            this.pedidosFavoraveis.get(i).setQtdPrejuizo(prejuizo);
+            System.out.println("Se "+this.pedidosFavoraveis.get(i).getTer()+" for retirado, ficará apenas "+this.pedidosFavoraveis.get(i).getQtdPrejuizo()+" clientes");
         }
 
     }

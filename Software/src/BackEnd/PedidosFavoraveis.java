@@ -11,10 +11,12 @@ package BackEnd;
 public class PedidosFavoraveis {
     private String ter;
     private int qtdRepeticoes;
+    private int qtdPrejuizo;
 
     public PedidosFavoraveis(String podeTer) {
         this.ter = podeTer;
         this.qtdRepeticoes = 0;
+        this.qtdPrejuizo = 0;
     }
 
     public String getTer() {
@@ -27,6 +29,14 @@ public class PedidosFavoraveis {
 
     public void setQtdRepeticoes() {
         this.qtdRepeticoes += 1;
+    }
+
+    public int getQtdPrejuizo() {
+        return this.qtdPrejuizo;
+    }
+
+    public void setQtdPrejuizo(int qtdPrejuizo) {
+        this.qtdPrejuizo = qtdPrejuizo;
     }
     
 }
