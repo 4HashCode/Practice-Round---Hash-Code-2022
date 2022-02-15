@@ -64,6 +64,7 @@ public class ConfigPedidos {
                 //Pega o ingrediente e verifica se ele está na lista de favoraveis
                 for (int j = 0; j < this.pedidosFavoraveis.size(); j++) {
                     isExists = false;
+                   
                     // SE O INGREDIENTE EXISTE, É INCREMENTRADO
                     //É feito um recorte na string da posição 2 até o valor do tamanho dela, ou seja o final, delimitando o ingrediente
                     //Nesse caso para apenas um ingrediente no pedido
@@ -88,9 +89,8 @@ public class ConfigPedidos {
                     //(o valor de início muda para o número da posição do novo espaço mais 1, para saber o começo do próximo ingrediente)
                     if (this.listaPedidos.get(i).getTer().substring(j - 1, j).equals(" ") || (j == this.listaPedidos.get(i).getTer().length())) {
                         //System.out.print("\n"+inicio+ " "+ (j - 1));
-                        System.out.print("\n" + this.listaPedidos.get(i).getTer().substring(inicio, j));
+                        //System.out.print("\n" + this.listaPedidos.get(i).getTer().substring(inicio, j));
                         for (int h = 0; h < this.pedidosFavoraveis.size(); h++) {
-
                             //Verifica se o ingrediente não existe mesmo na lista
                             if (!ingredientes.contains((this.listaPedidos.get(i).getTer().substring(inicio, j)))) {
                                 this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer().substring(inicio, j)));
@@ -109,6 +109,16 @@ public class ConfigPedidos {
                 }
             }
         }
+
+        for (int i = 0; i < this.listaPedidos.size(); i++) {
+            for(int j=0; j <this.pedidosFavoraveis.size(); j++){
+                
+                if (this.listaPedidos.get(i).getTer().contains(this.pedidosFavoraveis.get(j).getTer().replace(" ", ""))) {
+                    this.pedidosFavoraveis.get(j).setQtdRepeticoes();
+                }    
+            }
+        }
+        getListarFavoraveis();
     }
 
     public void getListarFavoraveis() {
