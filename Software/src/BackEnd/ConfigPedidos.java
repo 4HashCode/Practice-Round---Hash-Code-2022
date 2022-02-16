@@ -196,27 +196,26 @@ public class ConfigPedidos {
     public String getIngredientes() {
         int qtdIngredientes = 0;
         String pizzaFinal = "";
-        
-        for(int i = 0; i < this.pedidosFavoraveis.size(); i++){
-            if(this.podemosTirar.contains(this.pedidosFavoraveis.get(i).getTer()) ){
-                pizzaFinal += " "+this.pedidosFavoraveis.get(i).getTer();
+
+        for (int i = 0; i < this.pedidosFavoraveis.size(); i++) {
+            if (!this.podemosTirar.contains(this.pedidosFavoraveis.get(i).getTer())) {
+                pizzaFinal += " " + this.pedidosFavoraveis.get(i).getTer();
                 qtdIngredientes++;
             }
         }
-        
-        
+
         return String.valueOf(qtdIngredientes) + pizzaFinal;
 
     }
 
     public String getPontos() {
-        int pontos = 0;
+        int pontos = this.listaPedidos.size();
+        
+        
         for (int i = 0; i < this.listaPedidos.size(); i++) {
-            if (!(this.listaPedidos.get(i).getTer().equals(""))) {
-                pontos++;
-            }
+            
         }
-        return "Pontos: " + pontos;
+        return "\n\nPontos: " + pontos;
     }
 
     public void setSelecionarRentaveis() {
@@ -266,8 +265,8 @@ public class ConfigPedidos {
         for (int j = 0; j < this.listaPedidosNaoTer.size(); j++) {
             System.out.println("Perderemos " + this.listaPedidosNaoTer.get(j).getQtdRepeticoes() + " clientes se tirar o " + this.listaPedidosNaoTer.get(j).getNaoter());
             System.out.println((this.listaPedidos.size() - this.listaPedidosNaoTer.get(j).getQtdRepeticoes()) + " clientes satisfeitos");
-             System.out.println("------------------------------\n\n");
-                     
+            System.out.println("------------------------------\n\n");
+
             // SE NGM PEDIU ESSA EXCEÇÃO
             if (this.listaPedidosNaoTer.get(j).getQtdRepeticoes() == 0) {
                 podemosTirar += (" " + this.listaPedidosNaoTer.get(j).getNaoter());
