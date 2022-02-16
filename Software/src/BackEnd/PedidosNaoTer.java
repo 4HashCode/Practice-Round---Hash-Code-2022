@@ -31,6 +31,6 @@ public class PedidosNaoTer {
     }
 
     public void setQtdRepeticoes() {
-        this.qtdRepeticoes += 1;
+        this.qtdRepeticoes ++;
     }
 }

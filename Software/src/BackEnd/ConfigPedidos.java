@@ -277,42 +277,45 @@ public class ConfigPedidos {
         }
     }
 
-    public int getSimulacao() throws IOException {
-        // SELECIONA QUANTAS POSIÇÕES QUE OS RESULTADOS TERÃO
-        int posicoes = this.listaPedidosNaoTer.size();
-        int resultados[] = new int[posicoes];
-        int posResultados = 0;
+    public void getSimulacao() throws IOException {
 
-        // REALIZA A COMPARAÇÃO DOS VALORES INDIVIDUAIS;
-        for (int pos = 0; pos < this.listaPedidosNaoTer.size(); pos++) {
-            BufferedReader buffRead = new BufferedReader(new FileReader(this.path));
-            String linha = "";
-            int qtd = 0;
-            int i = -1;
-            while (true) {
-                i++;
-                if (linha != null) {
-                    if (i % 2 == 0) {
-                        if (linha.contains(this.listaPedidosNaoTer.get(pos).getNaoter())) {
-                            System.out.println("Pedido " + linha + " cancelado :(");
-                            resultados[posResultados] = qtd++;
+        BufferedReader buffRead = new BufferedReader(new FileReader(this.path));
+        String linha = "";
+        int i = -1;
+        while (true) {
+            i++;
+            if (linha != null) {
+                // PEGA OS INGREDIENTES PEDIDOS NA PIZZA
+                if ((i % 2 == 0) && !(i % 2 != 0) && !(i != 1) ) {
+                    // PEGA QUANTOS CLIENTES SERÃO PERDIDOS, PARA CADA VALOR INDIVIDUAL
+                    for (int j = 0; j < this.listaPedidosNaoTer.size(); j++) {
+                        if (linha.contains(this.listaPedidosNaoTer.get(j).getNaoter())) {
+                            System.out.println("Pedido " + linha + " cancelado, pois tem " + this.listaPedidosNaoTer.get(j).getNaoter());
+                            this.listaPedidosNaoTer.get(j).setQtdRepeticoes();
                         }
                     }
-                } else {
-                    break;
                 }
-                linha = buffRead.readLine();
+            } else {
+                break;
             }
-            buffRead.close();
-            qtd = 0;
+            linha = buffRead.readLine();
         }
+        buffRead.close();
 
         // RESULTADO
-        /*System.out.println("\n\nESTATISTICA");
-        System.out.println("Perdemos " + qtd + " clientes");
-        System.out.println("Ainda nos resta " + (this.listaPedidosNaoTer.size() - qtd) + " de " + (this.listaPedidosNaoTer.size()) + " clientes \n\n");
-        System.out.println("------------------------");*/
-        return 0;
+        System.out.println("\n\nESTATISTICA");
+        String podemosTirar = "";
+        for (int j = 0; j < this.listaPedidosNaoTer.size(); j++) {
+            System.out.println("Perderemos " + this.listaPedidosNaoTer.get(j).getQtdRepeticoes() + " clientes se tirar o " + this.listaPedidosNaoTer.get(j).getNaoter());
+
+            // SE NGM PEDIU ESSA EXCEÇÃO
+            if (this.listaPedidosNaoTer.get(j).getQtdRepeticoes() == 0) {
+                podemosTirar += (" " + this.listaPedidosNaoTer.get(j).getNaoter());
+            }
+        }
+
+        System.out.println("\n\nO mais viavél é retirar o " + podemosTirar);
+        
     }
 
 }
