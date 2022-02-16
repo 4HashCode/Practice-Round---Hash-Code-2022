@@ -201,7 +201,10 @@ public class Main extends javax.swing.JFrame {
 
             try {
                 this.configPedidos.leitor(txtEndereco.getText());
-                this.configPedidos.setListar();
+                
+                // LISTA OS INGREDIENTES QUE PODEM E QUE NÃO PODEM
+                this.configPedidos.setListarFavoraveis();
+                this.configPedidos.setListarDesfavoraveis();
                 
                 // RECEBE OS ELEMENTOS E QTD VEZES ELE SE REPETIU
                 this.configPedidos.setSelecionarRentaveis();

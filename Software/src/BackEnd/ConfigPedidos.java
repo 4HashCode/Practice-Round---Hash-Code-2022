@@ -22,6 +22,7 @@ public class ConfigPedidos {
     private ArrayList<Pedidos> listaPedidos;
     private ArrayList<PedidosFavoraveis> pedidosFavoraveis;
     private ArrayList<PedidosNaoTer> listaPedidosNaoTer;
+    private String podemosTirar;
 
     private String path;
 
@@ -30,6 +31,7 @@ public class ConfigPedidos {
         this.pedidosFavoraveis = new ArrayList<PedidosFavoraveis>();
         this.listaPedidosNaoTer = new ArrayList<PedidosNaoTer>();
         this.path = "";
+        this.podemosTirar = "";
     }
 
     public void leitor(String path) throws IOException {
@@ -128,7 +130,7 @@ public class ConfigPedidos {
     }
 
     //Procedimento que preenche os ingredientes favoraveis
-    public void setListar() {
+    public void setListarDesfavoraveis() {
         //Variável para lista os ingredientes
         String ingredientes = "";
         for (int i = 0; i < this.listaPedidos.size(); i++) {
@@ -192,62 +194,18 @@ public class ConfigPedidos {
     }
 
     public String getIngredientes() {
-        for (int i = 0; i < this.listaPedidos.size(); i++) {
-            //Se o primeiro caracter da lista de ingredientes desnecessário é igual a 1
-            if (this.listaPedidos.get(i).getNaoter().substring(0, 1).equals("1")) {
-                //Pega o ingrediente e verifica se ele está na lista dos necessários, 
-                //se estiver na linha(no pedido) ele é removido da lista.
-                for (int j = 0; j < this.listaPedidos.size(); j++) {
-                    if (this.listaPedidos.get(j).getTer().contains(this.listaPedidos.get(i).getNaoter().substring(2, this.listaPedidos.get(i).getNaoter().length()))) {
-                        this.listaPedidos.get(j).setTer("");
-                    }
-                }
-                //Limpa o ingrediente já verificado
-                this.listaPedidos.get(i).setNaoter("");
-                //No caso do valor ser 0, simplesmente ignora e segue o código
-            } else if (this.listaPedidos.get(i).getNaoter().substring(0, 1).equals("0")) {
-                continue;
-            } else {
-                //Começa após a quantidade de ingredientes e o espaço
-                int inicio = 2;
-                //Repete para cada caracter da string
-                for (int j = 3; j < this.listaPedidos.get(i).getNaoter().length(); j++) {
-                    //Verifica se o caracter é um espaço, se for delimitamos o tamanho do ingrediente com o final em j
-                    //e o início como 2 (o valor de início muda de acordo com a repetição ao encontrar um novo espaço)
-                    if (this.listaPedidos.get(i).getNaoter().substring(j - 1, j).equals(" ")) {
-                        for (int h = 0; h < this.listaPedidos.size(); h++) {
-                            //Pega o ingrediente e verifica se ele está na lista dos necessários, 
-                            //se estiver na linha(no pedido) ele é removido da lista.
-                            if (this.listaPedidos.get(h).getTer().contains(this.listaPedidos.get(i).getNaoter().substring(inicio, j - 1))) {
-                                this.listaPedidos.get(h).setTer("");
-                            }
-                        }
-                        inicio = j + 1;
-                    }
-                }
+        int qtdIngredientes = 0;
+        String pizzaFinal = "";
+        
+        for(int i = 0; i < this.pedidosFavoraveis.size(); i++){
+            if(this.podemosTirar.contains(this.pedidosFavoraveis.get(i).getTer()) ){
+                pizzaFinal += " "+this.pedidosFavoraveis.get(i).getTer();
+                qtdIngredientes++;
             }
         }
-        String ingredientes = " ";
-        int quantidade = 0;
-
-        for (int i = 0; i < this.listaPedidos.size(); i++) {
-            if (this.listaPedidos.get(i).getTer() != "") {
-                int inicio = 2;
-                for (int j = 3; j <= this.listaPedidos.get(i).getTer().length(); j++) {
-                    if (this.listaPedidos.get(i).getTer().substring(j - 1, j).equals(" ") || (j == this.listaPedidos.get(i).getTer().length())) {
-                        if (!ingredientes.contains(this.listaPedidos.get(i).getTer().substring(inicio, j - 1))) {
-                            ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(inicio, j);
-                            if (!ingredientes.substring(ingredientes.length() - 1, ingredientes.length()).equals(" ")) {
-                                ingredientes = ingredientes + " ";
-                            }
-                            quantidade++;
-                        }
-                        inicio = j;
-                    }
-                }
-            }
-        }
-        return quantidade + ingredientes.substring(0, ingredientes.length() - 1);
+        
+        
+        return String.valueOf(qtdIngredientes) + pizzaFinal;
 
     }
 
@@ -286,11 +244,12 @@ public class ConfigPedidos {
             i++;
             if (linha != null) {
                 // PEGA OS INGREDIENTES PEDIDOS NA PIZZA
-                if ((i % 2 == 0) && !(i % 2 != 0) && !(i != 1) ) {
+                if ((i % 2 == 0) && !(i % 2 != 0) && !(i != 1)) {
                     // PEGA QUANTOS CLIENTES SERÃO PERDIDOS, PARA CADA VALOR INDIVIDUAL
                     for (int j = 0; j < this.listaPedidosNaoTer.size(); j++) {
                         if (linha.contains(this.listaPedidosNaoTer.get(j).getNaoter())) {
                             System.out.println("Pedido " + linha + " cancelado, pois tem " + this.listaPedidosNaoTer.get(j).getNaoter());
+
                             this.listaPedidosNaoTer.get(j).setQtdRepeticoes();
                         }
                     }
@@ -304,10 +263,11 @@ public class ConfigPedidos {
 
         // RESULTADO
         System.out.println("\n\nESTATISTICA");
-        String podemosTirar = "";
         for (int j = 0; j < this.listaPedidosNaoTer.size(); j++) {
             System.out.println("Perderemos " + this.listaPedidosNaoTer.get(j).getQtdRepeticoes() + " clientes se tirar o " + this.listaPedidosNaoTer.get(j).getNaoter());
-
+            System.out.println((this.listaPedidos.size() - this.listaPedidosNaoTer.get(j).getQtdRepeticoes()) + " clientes satisfeitos");
+             System.out.println("------------------------------\n\n");
+                     
             // SE NGM PEDIU ESSA EXCEÇÃO
             if (this.listaPedidosNaoTer.get(j).getQtdRepeticoes() == 0) {
                 podemosTirar += (" " + this.listaPedidosNaoTer.get(j).getNaoter());
@@ -315,7 +275,7 @@ public class ConfigPedidos {
         }
 
         System.out.println("\n\nO mais viavél é retirar o " + podemosTirar);
-        
+
     }
 
 }
