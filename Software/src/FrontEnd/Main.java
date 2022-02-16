@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 /**
  *
@@ -184,6 +186,7 @@ public class Main extends javax.swing.JFrame {
 
         // ABRE A CAIXA DE NAVEGAÇÃO PARA PESQUISAR O ARQUIVO
         JFileChooser arquivoEscolhido = new JFileChooser();
+        arquivoEscolhido.setDialogTitle("Escolha o arquivo");
 
         // EXIBE OS ARQUIVOS
         arquivoEscolhido.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -201,11 +204,11 @@ public class Main extends javax.swing.JFrame {
 
             try {
                 this.configPedidos.leitor(txtEndereco.getText());
-                
+
                 // LISTA OS INGREDIENTES QUE PODEM E QUE NÃO PODEM
                 this.configPedidos.setListarFavoraveis();
                 this.configPedidos.setListarDesfavoraveis();
-                
+
                 // RECEBE OS ELEMENTOS E QTD VEZES ELE SE REPETIU
                 this.configPedidos.setSelecionarRentaveis();
 
@@ -213,7 +216,6 @@ public class Main extends javax.swing.JFrame {
                 this.btnExportar.setVisible(true);
                 this.txtTituloResultado.setText("A PIZZA FINAL SERÁ:");
                 this.txtResultado.setText(configPedidos.getIngredientes());
-                System.out.println(configPedidos.getPontos());
             } catch (IOException ex) {
                 Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
             }

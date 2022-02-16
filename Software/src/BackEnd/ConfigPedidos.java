@@ -23,6 +23,7 @@ public class ConfigPedidos {
     private ArrayList<PedidosFavoraveis> pedidosFavoraveis;
     private ArrayList<PedidosNaoTer> listaPedidosNaoTer;
     private String podemosTirar;
+    private int qtdIngredientesDescartados;
 
     private String path;
 
@@ -32,6 +33,7 @@ public class ConfigPedidos {
         this.listaPedidosNaoTer = new ArrayList<PedidosNaoTer>();
         this.path = "";
         this.podemosTirar = "";
+        this.qtdIngredientesDescartados = 0;
     }
 
     public void leitor(String path) throws IOException {
@@ -194,28 +196,32 @@ public class ConfigPedidos {
     }
 
     public String getIngredientes() {
+        // total de clientes
+        int pontos = this.listaPedidos.size();
+
         int qtdIngredientes = 0;
         String pizzaFinal = "";
 
         for (int i = 0; i < this.pedidosFavoraveis.size(); i++) {
-            if (!this.podemosTirar.contains(this.pedidosFavoraveis.get(i).getTer())) {
+            if (!(this.podemosTirar.contains(this.pedidosFavoraveis.get(i).getTer()))) {
                 pizzaFinal += " " + this.pedidosFavoraveis.get(i).getTer();
                 qtdIngredientes++;
+                continue;
             }
         }
 
+        // ----------------- PONTUAÇÃO ---------------------------------------------------
+        for (int j = 0; j < this.listaPedidosNaoTer.size(); j++) {
+            if (pizzaFinal.contains(this.listaPedidosNaoTer.get(j).getNaoter())) {
+                pontos -= this.listaPedidosNaoTer.get(j).getQtdRepeticoes();
+            }
+        }
+
+        System.out.println("\n\n-------------------------");
+        System.out.println("Pontuação: " + pontos);
+
         return String.valueOf(qtdIngredientes) + pizzaFinal;
 
-    }
-
-    public String getPontos() {
-        int pontos = this.listaPedidos.size();
-        
-        
-        for (int i = 0; i < this.listaPedidos.size(); i++) {
-            
-        }
-        return "\n\nPontos: " + pontos;
     }
 
     public void setSelecionarRentaveis() {
@@ -248,7 +254,6 @@ public class ConfigPedidos {
                     for (int j = 0; j < this.listaPedidosNaoTer.size(); j++) {
                         if (linha.contains(this.listaPedidosNaoTer.get(j).getNaoter())) {
                             System.out.println("Pedido " + linha + " cancelado, pois tem " + this.listaPedidosNaoTer.get(j).getNaoter());
-
                             this.listaPedidosNaoTer.get(j).setQtdRepeticoes();
                         }
                     }
@@ -269,12 +274,17 @@ public class ConfigPedidos {
 
             // SE NGM PEDIU ESSA EXCEÇÃO
             if (this.listaPedidosNaoTer.get(j).getQtdRepeticoes() == 0) {
-                podemosTirar += (" " + this.listaPedidosNaoTer.get(j).getNaoter());
+                this.podemosTirar += (" " + this.listaPedidosNaoTer.get(j).getNaoter());
+                this.qtdIngredientesDescartados++;
+                
+            } // SE O INGREDIENTE NÃO PREJUDICA 50% OU DOS CLIENTES OU MAIS, É TIRADO
+            else if (((this.listaPedidos.size() - this.listaPedidosNaoTer.get(j).getQtdRepeticoes())) < (this.listaPedidos.size() / 2)) {
+                this.podemosTirar += (" " + this.listaPedidosNaoTer.get(j).getNaoter());
+                this.qtdIngredientesDescartados++;
             }
         }
 
         System.out.println("\n\nO mais viavél é retirar o " + podemosTirar);
-
     }
 
 }
