@@ -15,7 +15,7 @@ public class PedidosNaoTer {
 
     public PedidosNaoTer(String naoPode) {
         this.naoter = naoPode;
-        this.qtdRepeticoes = 0;
+        this.qtdRepeticoes = 1;
     }
 
     public String getNaoter() {

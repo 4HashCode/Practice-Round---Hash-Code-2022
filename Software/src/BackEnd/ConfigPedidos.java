@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -66,133 +67,62 @@ public class ConfigPedidos {
 
     //Procedimento que preenche os ingredientes favoraveis
     public void setListarFavoraveis() {
-        //Variável para lista os ingredientes
-        String ingredientes = "";
         for (int i = 0; i < this.listaPedidos.size(); i++) {
-            boolean isExists = false;
-            //Se o primeiro caracter da lista de ingredientes necessarios é igual a 1
-            if (this.listaPedidos.get(i).getTer().substring(0, 1).equals("1")) {
-                //Pega o ingrediente e verifica se ele está na lista de favoraveis
-                for (int j = 0; j < this.pedidosFavoraveis.size(); j++) {
-                    isExists = false;
+            String ingredientes = this.listaPedidos.get(i).getTer().trim();
 
-                    // SE O INGREDIENTE EXISTE, É INCREMENTRADO
-                    //É feito um recorte na string da posição 2 até o valor do tamanho dela, ou seja o final, delimitando o ingrediente
-                    //Nesse caso para apenas um ingrediente no pedido
-                    //É adicionado a lista de favoráveis o nome do ingrediente recortado, assim como na comparação feita na condição anterior
-                    if (isExists == false) {
-                        //Verifica se o ingrediente não existe mesmo na lista
-                        if (!ingredientes.contains((this.listaPedidos.get(i).getTer().substring(2, this.listaPedidos.get(i).getTer().length())))) {
-                            this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer().substring(2, this.listaPedidos.get(i).getTer().length()).replace(" ", "")));
-                            ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(2, this.listaPedidos.get(i).getTer().length()) + " ";
-                        }
+            // TRANSFORMA A LINHA EM VALORES
+            final Pattern separarPorEspaco = Pattern.compile(" ");
+            String[] listaIngredientes = separarPorEspaco.split(ingredientes);
+
+            for (int j = 1; j < listaIngredientes.length; j++) {
+                // VALIDA SE ESSE VALOR JA FOI ADD
+                boolean isExists = false;
+
+                for (int nLista = 0; nLista < this.pedidosFavoraveis.size(); nLista++) {
+                    // SE A LISTA JÁ CONTÊM O INGREDIENTE DEFINE isExists COMO TRUE E INCREMENTA O VETOR
+                    if (this.pedidosFavoraveis.get(nLista).getTer().equals(listaIngredientes[j])) {
+                        this.pedidosFavoraveis.get(nLista).setQtdRepeticoes();
+                        isExists = true;
                     }
-
                 }
-            } else {
-                //Começa após a quantidade de ingredientes e o espaço
-                int inicio = 2;
 
-                //Repete para cada caracter da string
-                for (int j = 3; j <= this.listaPedidos.get(i).getTer().length(); j++) {
-                    //System.out.print("\n\nLinha: " + i+ " -> "+inicio+ " "+ j);
-                    //Verifica se o caracter é um espaço, se for o caso, delimitamos o tamanho do ingrediente com o final em j e o início como 2 
-                    //(o valor de início muda para o número da posição do novo espaço mais 1, para saber o começo do próximo ingrediente)
-                    if (this.listaPedidos.get(i).getTer().substring(j - 1, j).equals(" ") || (j == this.listaPedidos.get(i).getTer().length())) {
-                        //System.out.print("\n"+inicio+ " "+ (j - 1));
-                        //System.out.print("\n" + this.listaPedidos.get(i).getTer().substring(inicio, j));
-                        for (int h = 0; h < this.pedidosFavoraveis.size(); h++) {
-                            //Verifica se o ingrediente não existe mesmo na lista
-                            if (!ingredientes.contains((this.listaPedidos.get(i).getTer().substring(inicio, j)))) {
-                                this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer().substring(inicio, j).replace(" ", "")));
-                                ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(inicio, j) + " ";
-                            }
-                        }
-                        if (isExists == false) {
-                            //Verifica se o ingrediente não existe mesmo na lista
-                            if (!ingredientes.contains((this.listaPedidos.get(i).getTer().substring(inicio, j)))) {
-                                this.pedidosFavoraveis.add(new PedidosFavoraveis(this.listaPedidos.get(i).getTer().substring(inicio, j).replace(" ", "")));
-                                ingredientes = ingredientes + this.listaPedidos.get(i).getTer().substring(inicio, j) + " ";
-                            }
-                        }
-                        inicio = j;
-                    }
+                // SE NÃO EXISTIR, CRIA UMA NOVA POSIÇÃO
+                if (isExists == false) {
+                    this.pedidosFavoraveis.add(new PedidosFavoraveis(listaIngredientes[j]));
                 }
             }
         }
-
-        for (int i = 0; i < this.listaPedidos.size(); i++) {
-            for (int j = 0; j < this.pedidosFavoraveis.size(); j++) {
-
-                if (this.listaPedidos.get(i).getTer().contains(this.pedidosFavoraveis.get(j).getTer())) {
-                    this.pedidosFavoraveis.get(j).setQtdRepeticoes();
-                }
-            }
-        }
+        System.out.println("\n\n");
     }
 
     //Procedimento que preenche os ingredientes favoraveis
     public void setListarDesfavoraveis() {
-        //Variável para lista os ingredientes
-        String ingredientes = "";
         for (int i = 0; i < this.listaPedidos.size(); i++) {
-            boolean isExists = false;
-            //Se o primeiro caracter da lista de ingredientes necessarios é igual a 1
-            if (this.listaPedidos.get(i).getNaoter().substring(0, 1).equals("1")) {
-                //Pega o ingrediente e verifica se ele está na lista de favoraveis
-                for (int j = 0; j <= this.listaPedidosNaoTer.size() + 1; j++) {
-                    // SE O INGREDIENTE EXISTE, É INCREMENTRADO
-                    //É feito um recorte na string da posição 2 até o valor do tamanho dela, ou seja o final, delimitando o ingrediente
-                    //Nesse caso para apenas um ingrediente no pedido
-                    //É adicionado a lista de favoráveis o nome do ingrediente recortado, assim como na comparação feita na condição anterior
-                    if (isExists == false) {
-                        //Verifica se o ingrediente não existe mesmo na lista
-                        if (!ingredientes.contains((this.listaPedidos.get(i).getNaoter().substring(2, this.listaPedidos.get(i).getNaoter().length())))) {
-                            this.listaPedidosNaoTer.add(new PedidosNaoTer(this.listaPedidos.get(i).getNaoter().substring(2, this.listaPedidos.get(i).getNaoter().length()).replace(" ", "")));
-                            ingredientes = ingredientes + this.listaPedidos.get(i).getNaoter().substring(2, this.listaPedidos.get(i).getNaoter().length()) + " ";
-                        }
-                    }
+            String ingredientes = this.listaPedidos.get(i).getNaoter().trim();
 
+            // TRANSFORMA A LINHA EM VALORES
+            final Pattern separarPorEspaco = Pattern.compile(" ");
+            String[] listaIngredientes = separarPorEspaco.split(ingredientes);
+
+            for (int j = 1; j < listaIngredientes.length; j++) {
+                // VALIDA SE ESSE VALOR JA FOI ADD
+                boolean isExists = false;
+
+                for (int nLista = 0; nLista < this.listaPedidosNaoTer.size(); nLista++) {
+                    // SE A LISTA JÁ CONTÊM O INGREDIENTE DEFINE isExists COMO TRUE E INCREMENTA O VETOR
+                    if (this.listaPedidosNaoTer.get(nLista).getNaoter().equals(listaIngredientes[j])) {
+                        this.listaPedidosNaoTer.get(nLista).setQtdRepeticoes();
+                        isExists = true;
+                    }
                 }
-            } else {
-                //Começa após a quantidade de ingredientes e o espaço
-                int inicio = 2;
 
-                //Repete para cada caracter da string
-                for (int j = 3; j <= this.listaPedidos.get(i).getNaoter().length(); j++) {
-                    //System.out.print("\n\nLinha: " + i+ " -> "+inicio+ " "+ j);
-                    //Verifica se o caracter é um espaço, se for o caso, delimitamos o tamanho do ingrediente com o final em j e o início como 2 
-                    //(o valor de início muda para o número da posição do novo espaço mais 1, para saber o começo do próximo ingrediente)
-                    if (this.listaPedidos.get(i).getNaoter().substring(j - 1, j).equals(" ") || (j == this.listaPedidos.get(i).getNaoter().length())) {
-                        //System.out.print("\n"+inicio+ " "+ (j - 1));
-                        //System.out.print("\n" + this.listaPedidos.get(i).getTer().substring(inicio, j));
-                        for (int h = 0; h < this.pedidosFavoraveis.size(); h++) {
-                            //Verifica se o ingrediente não existe mesmo na lista
-                            if (!ingredientes.contains((this.listaPedidos.get(i).getNaoter().substring(inicio, j)))) {
-                                this.listaPedidosNaoTer.add(new PedidosNaoTer(this.listaPedidos.get(i).getNaoter().substring(inicio, j).replace(" ", "")));
-                                ingredientes = ingredientes + this.listaPedidos.get(i).getNaoter().substring(inicio, j) + " ";
-                            }
-                        }
-                        if (isExists == false) {
-                            //Verifica se o ingrediente não existe mesmo na lista
-                            if (!ingredientes.contains((this.listaPedidos.get(i).getNaoter().substring(inicio, j)))) {
-                                this.listaPedidosNaoTer.add(new PedidosNaoTer(this.listaPedidos.get(i).getNaoter().substring(inicio, j).replace(" ", "")));
-                                ingredientes = ingredientes + this.listaPedidos.get(i).getNaoter().substring(inicio, j) + " ";
-                            }
-                        }
-                        inicio = j;
-                    }
+                // SE NÃO EXISTIR, CRIA UMA NOVA POSIÇÃO
+                if (isExists == false) {
+                    this.listaPedidosNaoTer.add(new PedidosNaoTer(listaIngredientes[j]));
                 }
             }
         }
-
-        for (int i = 0; i < this.listaPedidos.size(); i++) {
-            for (int j = 0; j < this.listaPedidosNaoTer.size(); j++) {
-                if (this.listaPedidos.get(i).getTer().contains(this.listaPedidosNaoTer.get(j).getNaoter())) {
-                    this.listaPedidosNaoTer.get(j).setQtdRepeticoes();
-                }
-            }
-        }
+        System.out.println("\n\n");
     }
 
     public String getIngredientes() {
@@ -276,7 +206,7 @@ public class ConfigPedidos {
             if (this.listaPedidosNaoTer.get(j).getQtdRepeticoes() == 0) {
                 this.podemosTirar += (" " + this.listaPedidosNaoTer.get(j).getNaoter());
                 this.qtdIngredientesDescartados++;
-                
+
             } // SE O INGREDIENTE NÃO PREJUDICA 50% OU DOS CLIENTES OU MAIS, É TIRADO
             else if (((this.listaPedidos.size() - this.listaPedidosNaoTer.get(j).getQtdRepeticoes())) < (this.listaPedidos.size() / 2)) {
                 this.podemosTirar += (" " + this.listaPedidosNaoTer.get(j).getNaoter());

@@ -15,7 +15,7 @@ public class PedidosFavoraveis {
 
     public PedidosFavoraveis(String podeTer) {
         this.ter = podeTer;
-        this.qtdRepeticoes = 0;
+        this.qtdRepeticoes = 1;
         this.qtdPrejuizo = 0;
     }
 
