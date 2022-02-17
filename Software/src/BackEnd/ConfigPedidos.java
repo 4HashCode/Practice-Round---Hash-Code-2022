@@ -194,7 +194,7 @@ public class ConfigPedidos {
         for (int i = 0; i < this.pedidosFavoraveis.size(); i++) {
             // DEFINE QUANTOS CLIENTES VÃO FICAR, SE O INGREDIENTE FOR TIRADO
             this.pedidosFavoraveis.get(i).setQtdEstimada(this.listaPedidos.size());
-            System.out.println(" Se retirar o " + this.pedidosFavoraveis.get(i).getTer() + ", ficará " + this.pedidosFavoraveis.get(i).getQtdEstimada() + " clientes");
+            System.out.println(" Se tirar o " + this.pedidosFavoraveis.get(i).getTer() + ", ficará " + this.pedidosFavoraveis.get(i).getQtdEstimada() + " clientes");
         }
 
         // RETIRA OS INGREDIENTES DESNCESSARIOS, PARA QUE AGRADE O MAIOR NUMERO DE CLIENTES POSSIVEIS
@@ -206,14 +206,27 @@ public class ConfigPedidos {
     }
 
     public void setSepararIngredientes() throws IOException {
+        
+        // PEGA TDS OS INGREDIENTES QUE NÃO PODEM
         for (int i = 0; i < this.listaPedidosNaoTer.size(); i++) {
+            boolean isExists = false;
+            
+            // VERIFICA NA LISTA DE PEDIDOS TEM O INGREDIENTE QUE NÃO PODE
+            for (int j = 0; j < this.listaPedidos.size(); j++) {
+                if(this.listaPedidos.get(j).getTer().contains(this.listaPedidosNaoTer.get(i).getNaoter())){
+                    isExists = true;
+                }
+            }
+            
+            // ------------------
+
             // SE NGM PEDIU ESSA EXCEÇÃO
-            if (this.listaPedidosNaoTer.get(i).getQtdRepeticoes() == 0) {
+            if (isExists == false) {
                 this.podemosTirar += (" " + this.listaPedidosNaoTer.get(i).getNaoter());
             }
         }
 
-        System.out.println("\n\nO mais viavél é retirar o " + podemosTirar);
+        System.out.println("\n\nO mais viavél é retirar o " + this.podemosTirar);
     }
 
 }
