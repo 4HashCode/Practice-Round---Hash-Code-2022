@@ -24,8 +24,6 @@ public class ConfigPedidos {
     private ArrayList<PedidosFavoraveis> pedidosFavoraveis;
     private ArrayList<PedidosNaoTer> listaPedidosNaoTer;
     private String podemosTirar;
-    private int qtdIngredientesDescartados;
-
     private String path;
 
     public ConfigPedidos() {
@@ -34,7 +32,6 @@ public class ConfigPedidos {
         this.listaPedidosNaoTer = new ArrayList<PedidosNaoTer>();
         this.path = "";
         this.podemosTirar = "";
-        this.qtdIngredientesDescartados = 0;
     }
 
     public void leitor(String path) throws IOException {
@@ -80,7 +77,7 @@ public class ConfigPedidos {
 
                 for (int nLista = 0; nLista < this.pedidosFavoraveis.size(); nLista++) {
                     // SE A LISTA JÁ CONTÊM O INGREDIENTE DEFINE isExists COMO TRUE E INCREMENTA O VETOR
-                    if (this.pedidosFavoraveis.get(nLista).getTer().equals(listaIngredientes[j])) {
+                    if (this.pedidosFavoraveis.get(nLista).getTer().equalsIgnoreCase(listaIngredientes[j])) {
                         this.pedidosFavoraveis.get(nLista).setQtdRepeticoes();
                         isExists = true;
                     }
@@ -109,7 +106,7 @@ public class ConfigPedidos {
 
                 for (int nLista = 0; nLista < this.listaPedidosNaoTer.size(); nLista++) {
                     // SE A LISTA JÁ CONTÊM O INGREDIENTE DEFINE isExists COMO TRUE E INCREMENTA O VETOR
-                    if (this.listaPedidosNaoTer.get(nLista).getNaoter().equals(listaIngredientes[j])) {
+                    if (this.listaPedidosNaoTer.get(nLista).getNaoter().equalsIgnoreCase(listaIngredientes[j])) {
                         this.listaPedidosNaoTer.get(nLista).setQtdRepeticoes();
                         isExists = true;
                     }
@@ -163,7 +160,7 @@ public class ConfigPedidos {
 
                             if (this.listaPedidos.get(j).getNaoter().contains(this.listaPedidosNaoTer.get(m).getNaoter())) {
                                 //pizzaFinal.replace(listaIngredientes[l + 1], "");
-                                
+
                                 //Informa se o pedido tem o ingrediente que será removido,
                                 //se for o caso não deve ser contabilizado o pedido como 1 ponto
                                 tem = true;
@@ -195,59 +192,24 @@ public class ConfigPedidos {
 
         // DEFINE QUANTOS CLIENTES QUE CADA INGREDIENTE FARÁ PERDER, SE FOR TIRADO DA PIZZA
         for (int i = 0; i < this.pedidosFavoraveis.size(); i++) {
-            // QTD DE REPETIÇÕES REMETE AO NUMERO DE VEZES QUE O INGREDIENTE APARECE EM CADA PIZZA
-            int prejuizo = this.listaPedidos.size() - this.pedidosFavoraveis.get(i).getQtdRepeticoes();
-            this.pedidosFavoraveis.get(i).setQtdPrejuizo(prejuizo);
+            // DEFINE QUANTOS CLIENTES VÃO FICAR, SE O INGREDIENTE FOR TIRADO
+            this.pedidosFavoraveis.get(i).setQtdEstimada(this.listaPedidos.size());
+            System.out.println(" Se retirar o " + this.pedidosFavoraveis.get(i).getTer() + ", ficará " + this.pedidosFavoraveis.get(i).getQtdEstimada() + " clientes");
         }
 
+        // RETIRA OS INGREDIENTES DESNCESSARIOS, PARA QUE AGRADE O MAIOR NUMERO DE CLIENTES POSSIVEIS
         try {
-            this.getSimulacao();
+            this.setSepararIngredientes();
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void getSimulacao() throws IOException {
-
-        BufferedReader buffRead = new BufferedReader(new FileReader(this.path));
-        String linha = "";
-        int i = -1;
-        while (true) {
-            i++;
-            if (linha != null) {
-                // PEGA OS INGREDIENTES PEDIDOS NA PIZZA
-                if ((i % 2 == 0) && !(i % 2 != 0) && !(i != 1)) {
-                    // PEGA QUANTOS CLIENTES SERÃO PERDIDOS, PARA CADA VALOR INDIVIDUAL
-                    for (int j = 0; j < this.listaPedidosNaoTer.size(); j++) {
-                        if (linha.contains(this.listaPedidosNaoTer.get(j).getNaoter())) {
-                            System.out.println("Pedido " + linha + " cancelado, pois tem " + this.listaPedidosNaoTer.get(j).getNaoter());
-                            this.listaPedidosNaoTer.get(j).setQtdRepeticoes();
-                        }
-                    }
-                }
-            } else {
-                break;
-            }
-            linha = buffRead.readLine();
-        }
-        buffRead.close();
-
-        // RESULTADO
-        System.out.println("\n\nESTATISTICA");
-        for (int j = 0; j < this.listaPedidosNaoTer.size(); j++) {
-            System.out.println("Perderemos " + this.listaPedidosNaoTer.get(j).getQtdRepeticoes() + " clientes se tirar o " + this.listaPedidosNaoTer.get(j).getNaoter());
-            System.out.println((this.listaPedidos.size() - this.listaPedidosNaoTer.get(j).getQtdRepeticoes()) + " clientes satisfeitos");
-            System.out.println("------------------------------\n");
-
+    public void setSepararIngredientes() throws IOException {
+        for (int i = 0; i < this.listaPedidosNaoTer.size(); i++) {
             // SE NGM PEDIU ESSA EXCEÇÃO
-            if (this.listaPedidosNaoTer.get(j).getQtdRepeticoes() == 0) {
-                this.podemosTirar += (" " + this.listaPedidosNaoTer.get(j).getNaoter());
-                this.qtdIngredientesDescartados++;
-
-            } // SE O INGREDIENTE NÃO PREJUDICA 50% OU DOS CLIENTES OU MAIS, É TIRADO
-            else if (((this.listaPedidos.size() - this.listaPedidosNaoTer.get(j).getQtdRepeticoes())) < (this.listaPedidos.size() / 2)) {
-                this.podemosTirar += (" " + this.listaPedidosNaoTer.get(j).getNaoter());
-                this.qtdIngredientesDescartados++;
+            if (this.listaPedidosNaoTer.get(i).getQtdRepeticoes() == 0) {
+                this.podemosTirar += (" " + this.listaPedidosNaoTer.get(i).getNaoter());
             }
         }
 
