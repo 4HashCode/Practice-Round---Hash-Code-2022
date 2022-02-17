@@ -92,7 +92,6 @@ public class ConfigPedidos {
                 }
             }
         }
-        System.out.println("\n\n");
     }
 
     //Procedimento que preenche os ingredientes favoraveis
@@ -127,8 +126,8 @@ public class ConfigPedidos {
 
     public String getIngredientes() {
         // total de clientes
-        int pontos = this.listaPedidos.size();
-
+        //int pontos = this.listaPedidos.size();
+        int pontos = 0;
         int qtdIngredientes = 0;
         String pizzaFinal = "";
 
@@ -139,12 +138,50 @@ public class ConfigPedidos {
                 continue;
             }
         }
+        // TRANSFORMA A LINHA EM VALORES
+        final Pattern separarPorEspaco = Pattern.compile(" ");
+        String[] listaIngredientes = separarPorEspaco.split(pizzaFinal);
 
         // ----------------- PONTUAÇÃO ---------------------------------------------------
-        for (int j = 0; j < this.listaPedidosNaoTer.size(); j++) {
-            if (pizzaFinal.contains(this.listaPedidosNaoTer.get(j).getNaoter())) {
-                pontos -= this.listaPedidosNaoTer.get(j).getQtdRepeticoes();
+        //Loop para ler as linhas dos pedidos
+        for (int j = 0; j < this.listaPedidos.size(); j++) {
+            //Armazena os ingredientes de cada pedido(linha) no vetor a cada repetição
+            //A cada repetição o valor da variável Pedidos é sobreposto para os ingredientes da nova linha
+            String[] Pedidos = separarPorEspaco.split(this.listaPedidos.get(j).getTer().substring(2, this.listaPedidos.get(j).getTer().length()));
+            //Contador para impedir a remoção de mais de um ponto a cada linha
+            int c = 0;
+            //Loop para alternar os ingredientes do pedido presente na linha atual
+            for (int k = 0; k < Pedidos.length; k++) {
+                //Loop para alternar os ingredientes que devem ter na pizza
+                for (int l = 0; l < listaIngredientes.length - 1; l++) {
+                    //Verifica se cada ingrediente do pedido é igual aos presentes da pizza
+                    if (Pedidos[k].equals(listaIngredientes[l + 1])) {
+
+                        boolean tem = false;
+                        //Loop para verificar se o ingrediente faz parte de um pedido que o ingrediente deve ser removido(assim não deve contar o "lixo", teoricamente)
+                        for (int m = 0; m < this.listaPedidosNaoTer.size(); m++) {
+
+                            if (this.listaPedidos.get(j).getNaoter().contains(this.listaPedidosNaoTer.get(m).getNaoter())) {
+                                //pizzaFinal.replace(listaIngredientes[l + 1], "");
+                                
+                                //Informa se o pedido tem o ingrediente que será removido,
+                                //se for o caso não deve ser contabilizado o pedido como 1 ponto
+                                tem = true;
+                            }
+                        }
+
+                        c++;
+
+                        //Se todos os ingredientes do pedido estiverem na pizza e o pedido não tiver na linha de baixo o ingrediente a ser removido
+                        if (c == Pedidos.length && tem == false) {
+                            pontos += 1;
+                            break;
+                        }
+
+                    }
+                }
             }
+
         }
 
         System.out.println("\n\n-------------------------");
@@ -200,7 +237,7 @@ public class ConfigPedidos {
         for (int j = 0; j < this.listaPedidosNaoTer.size(); j++) {
             System.out.println("Perderemos " + this.listaPedidosNaoTer.get(j).getQtdRepeticoes() + " clientes se tirar o " + this.listaPedidosNaoTer.get(j).getNaoter());
             System.out.println((this.listaPedidos.size() - this.listaPedidosNaoTer.get(j).getQtdRepeticoes()) + " clientes satisfeitos");
-            System.out.println("------------------------------\n\n");
+            System.out.println("------------------------------\n");
 
             // SE NGM PEDIU ESSA EXCEÇÃO
             if (this.listaPedidosNaoTer.get(j).getQtdRepeticoes() == 0) {

@@ -210,7 +210,7 @@ public class Main extends javax.swing.JFrame {
                 this.configPedidos.setListarDesfavoraveis();
 
                 // RECEBE OS ELEMENTOS E QTD VEZES ELE SE REPETIU
-                this.configPedidos.setSelecionarRentaveis();
+                //this.configPedidos.setSelecionarRentaveis();
 
                 // MOSTRA O RESULTADO DA PIZZA
                 this.btnExportar.setVisible(true);
